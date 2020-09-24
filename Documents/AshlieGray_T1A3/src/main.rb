@@ -24,11 +24,6 @@ class User
     end
 end
 
-user_database = []
-# CSV.foreach("Users.csv", headers: true) do |row| 
-#     user_database << User.new(row["username"], row["password"])
-# end
-
 class Patient
     attr_reader :first_name, :last_name, :species, :breed, :age, :sex
     def initialize(first_name, last_name)
@@ -50,7 +45,11 @@ class Patient
     end
 end
 
-
+user_database = []
+CSV.foreach("Users.csv", headers: true) do |row| 
+    user_database << User.new(row["username"], row["password"])
+end
+patient_database = []
 prompt = TTY::Prompt.new
 
 puts "TPRP Monitor"
@@ -63,12 +62,15 @@ end
 
 
     user = nil
+loop do    
 if  welcome == "Create Account"
     user_name= prompt.ask("Enter a username")
     user_password = prompt.mask("Enter a password")
     user = User.new(user_name, user_password)
     user_database << user
-    CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"]}    
+    CSV.open("Users.csv", "a") do |csv| 
+        csv << ["#{user_name}", "#{user_password}"]   
+    end    
     puts "Welcome #{user_name}, you are now logged in"
 
     elsif welcome == "Login"
@@ -85,4 +87,45 @@ if  welcome == "Create Account"
     puts "Goodbye"
         
     end
+end
+loop do
+    if user != nil
+        main_menu = prompt.select("What would you like to do?") do |menu|
+            menu.choice "Find Patient"
+            menu.choice "Add Patient"
+            menu.choice "Help"
+            menu.choice "Exit"   
+        end
+
+        if main_menu == "Find Patient"
+            #search patient data base
+            # begin
+            #     user.read_log
+            # rescue
+            #     puts "You haven't added any notes yet!"
+            # end
+        elsif main_menu == "Add Patient"
+                patient_first_name= prompt.ask("Patient First Name")
+                patient_last_name= prompt.ask("Patient Last Name")
+                patient_species= prompt.ask("Patient Species")
+                patient_breed= prompt.ask("Patient Breed")
+                patient_age= prompt.ask("Patient Age")
+                patient_sex= prompt.ask("Patient Sex")
+                patient = Patient.new(patient_first_name, patient_last_name)
+                patient_database << patient
+                CSV.open("Patients.csv", "a") do |csv| 
+                    csv << ["#{patient_first_name}", "#{patient_last_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"]   
+                end    
+                puts "Welcome #{user_name}, you are now logged in"
+        elsif input == "Logout"
+            puts "Thank you #{user.username}, you have now logged out"
+            user = nil
+            system("clear")
+            puts ""
+            break
+        else 
+            puts "Invalid Input"
+        end
+    end
+end
 end
