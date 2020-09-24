@@ -116,8 +116,8 @@ loop do
                 CSV.open("Patients.csv", "a") do |csv| 
                     csv << ["#{patient_first_name}", "#{patient_last_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"]   
                 end    
-                puts "Welcome #{user_name}, you are now logged in"
-        elsif input == "Logout"
+                puts "Thank you, #{patient_first_name} has been added to the system"
+        elsif input == "Exit"
             puts "Thank you #{user.username}, you have now logged out"
             user = nil
             system("clear")
