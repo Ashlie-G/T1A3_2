@@ -45,50 +45,59 @@ class Patient
     end
 end
 
+#databases
 user_database = []
 CSV.foreach("Users.csv", headers: true) do |row| 
     user_database << User.new(row["username"], row["password"])
 end
 patient_database = []
+CSV.foreach("Patients.csv", headers: true) do |row| 
+    patient_database << Patient.new(row["username"], row["password"])
+end
+
+#opening menu
 prompt = TTY::Prompt.new
+
+
 
 puts "TPRP Monitor"
 sleep 1
 welcome = prompt.select("Login or Create New") do |menu|
-    menu.choice "Login"
-    menu.choice "Create Account"
-    menu.choice "Exit"   
+menu.choice "Login"
+menu.choice "Create Account"
+menu.choice "Exit"   
 end
+user = nil
 
+    loop do    
+        if  welcome == "Create Account"
+        user_name= prompt.ask("Enter a username")
+        user_password = prompt.mask("Enter a password")
+        user = User.new(user_name, user_password)
+        user_database << user
+        CSV.open("Users.csv", "a") do |csv| 
+            csv << ["#{user_name}", "#{user_password}"]   
+            end    
+            puts "Welcome #{user_name}, you are now logged in"
 
-    user = nil
-loop do    
-if  welcome == "Create Account"
-    user_name= prompt.ask("Enter a username")
-    user_password = prompt.mask("Enter a password")
-    user = User.new(user_name, user_password)
-    user_database << user
-    CSV.open("Users.csv", "a") do |csv| 
-        csv << ["#{user_name}", "#{user_password}"]   
-    end    
-    puts "Welcome #{user_name}, you are now logged in"
-
-    elsif welcome == "Login"
-          username = prompt.ask("Enter username")
-          current_user = user_database.find{ |user| user.username == username}
-            if username == current_user.username
-               password = prompt.mask('Enter your password')
+            elsif welcome == "Login"
+            username = prompt.ask("Enter username")
+            current_user = user_database.find{ |user| user == username}
+                if username == current_user.username
+                password = prompt.mask('Enter your password')
                 if password == current_user.password
                    user == current_user
                 else
-            puts "Access Denied"
-                end
-    else
-    puts "Goodbye"
-        
+                puts "Access Denied"
+                end 
+                 break
+        elsif welcome == "Exit"
+                user = nil
+                break
+        else
+            puts "invalid Input"
+        end
     end
-end
-loop do
     if user != nil
         main_menu = prompt.select("What would you like to do?") do |menu|
             menu.choice "Find Patient"
@@ -98,6 +107,8 @@ loop do
         end
 
         if main_menu == "Find Patient"
+            patient_first_name= prompt.ask("Patient First Name")
+            patient_last_name= prompt.ask("Patient Last Name")
             #search patient data base
             # begin
             #     user.read_log
@@ -127,5 +138,4 @@ loop do
             puts "Invalid Input"
         end
     end
-end
 end
