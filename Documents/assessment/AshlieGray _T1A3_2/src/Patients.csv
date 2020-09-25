@@ -1,1 +1,2 @@
-fullname, species, 
+full_name,species,breed,age,sex 
+angus,cat,persian,5,male
