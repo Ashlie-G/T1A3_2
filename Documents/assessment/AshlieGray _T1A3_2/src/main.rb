@@ -46,10 +46,14 @@ end
 
 #attempt to move data to csv's
 def view_log 
-        # @patient_log << log
-        # File.foreach("belle.txt") {|line| @patient_log.push(line)}
-        # puts @patient_log
        puts CSV.read("angus.csv")
+       puts "#{@username}, #{Time.now}"
+    #    CSV.foreach("angus.csv") do |row|
+    #     table = TTY::Table.new
+    #     table << ["Temp", "Pulse", "Resp Rate"]
+    #     table << [temp, pulse, resprate]
+    #    end
+    #    puts table.render(:ascii)
 end
     
 def add_log(temperature, pulse, respiration)
@@ -60,14 +64,9 @@ def add_log(temperature, pulse, respiration)
     end
        
 end
-
-
-# CSV.open("cats.csv", "w") do |csv|
-#     csv << ["colour", "qty"] #headers
-#     csv << [:ginger, 1]
-#     csv << [:black, 2]
-#     csv << [:white,3]
-# end
+# table = TTY::Table.new
+# table << ["a1","a2"]
+# table << ["b1","b2"]
 
 #databases
 user_list = []
