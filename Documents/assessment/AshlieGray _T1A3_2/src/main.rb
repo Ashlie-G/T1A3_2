@@ -31,17 +31,43 @@ class Patient
 end
 
 @patient_log = []
-def view_log(log) 
-    @patient_log << log
-    File.foreach("belle.txt") {|line| @patient_log.push(line)}
-    puts @patient_log
+# def view_log(log) 
+#     @patient_log << log
+#     File.foreach("belle.txt") {|line| @patient_log.push(line)}
+#     puts @patient_log
     
+# end
+
+# def add_log(temperature, pulse, respiration, pain)
+#     @patient_log = temperature, pulse, respiration, pain
+#     File.write("belle.txt", @patient_log, mode: "a")
+# end
+
+
+#attempt to move data to csv's
+def view_log 
+        # @patient_log << log
+        # File.foreach("belle.txt") {|line| @patient_log.push(line)}
+        # puts @patient_log
+       puts CSV.read("angus.csv")
+end
+    
+def add_log(temperature, pulse, respiration)
+        @patient_log = temperature, pulse, respiration
+    CSV.open("angus.csv", "w") do |csv|
+        csv << ["Temp", "Pulse", "Resp Rate"]
+        csv << [temperature, pulse, respiration]
+    end
+       
 end
 
-def add_log(temperature, pulse, respiration, pain)
-    @patient_log = temperature, pulse, respiration, pain
-    File.write("belle.txt", @patient_log, mode: "a")
-end
+
+# CSV.open("cats.csv", "w") do |csv|
+#     csv << ["colour", "qty"] #headers
+#     csv << [:ginger, 1]
+#     csv << [:black, 2]
+#     csv << [:white,3]
+# end
 
 #databases
 user_list = []
@@ -140,11 +166,10 @@ patient = nil
                             temp = prompt.ask("Temperature")
                             pulse = prompt.ask("Pulse")
                             resprate = prompt.ask("Resp")
-                            pain = prompt.ask("Pain(out of 5)")
-                            add_log(temp, pulse,resprate, pain)
+                            add_log(temp, pulse,resprate)
                         
                         elsif patient_menu == "View"
-                            read_log("belle.txt")
+                              view_log
 
                         elsif patient_menu == "Help (Normal Ranges)"
                             puts "normal ranges are:"
