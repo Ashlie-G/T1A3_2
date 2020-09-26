@@ -49,10 +49,7 @@ def add_log(temperature, pulse, respiration)
         csv << ["Temp", "Pulse", "Resp Rate"]
         csv << [temperature, pulse, respiration]
         csv << ["#{@username}", Time.now]
-    end
-    
-     
-     
+    end   
 end
 # table = TTY::Table.new
 # table << ["a1","a2"]
@@ -70,18 +67,17 @@ patient_list = []
 CSV.foreach("Patients.csv", headers: true) do |row| 
 patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
 end
-
-
-# CSV.foreach("belle.csv", headers: true) do |row| 
-# patient_list << Patient.new(row["Temperature"], row["Pulse"], row["Respiratory Rate"], row["Pain"])
+title =File.read("title.txt")
+puts title
+# File.readlines("title.txt") do |line|
+#     puts line
 # end
-
 #opening menu
 prompt = TTY::Prompt.new
-prompt = TTY::Prompt.new(active_color: :cyan)
+prompt = TTY::Prompt.new(active_color: :magenta)
 
-puts "Welcome to the TPR Monitor".colorize(:red)
 sleep 1
+
 welcome = prompt.select("Login or Create New") do |menu|
 menu.choice "Login"
 menu.choice "Create Account"
