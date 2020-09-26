@@ -110,17 +110,17 @@ patient = nil
         end
     
     
-    loop do
-        main_menu = prompt.select("What would you like to do?") do |menu|
+        loop do
+            main_menu = prompt.select("What would you like to do?") do |menu|
             menu.choice "Find Patient"
             menu.choice "Add Patient"
             menu.choice "Help"
             menu.choice "Exit"   
             end
         
-        if main_menu == "Find Patient" 
-            patient_full_name= prompt.ask("Patient Full Name")
-            current_patient = patient_list.find{ |patient| patient.full_name == patient_full_name}
+            if main_menu == "Find Patient" 
+                patient_full_name= prompt.ask("Patient Full Name")
+                current_patient = patient_list.find{ |patient| patient.full_name == patient_full_name}
                 begin    
                     if patient_full_name == current_patient.full_name
                        patient == current_patient
@@ -129,7 +129,8 @@ patient = nil
                         patient_menu = prompt.select("Would you like to add log or view log?") do |menu|
                         menu.choice "Add"
                         menu.choice "View"
-                        menu.choice "Exit"   
+                        menu.choice "Help (Normal Ranges)"
+                        menu.choice "Exit Patient Menu"   
                         end 
                       #patient_list << patient
                        # CSV.open("Patients.csv", "a") do |csv| 
@@ -143,6 +144,13 @@ patient = nil
                         
                         elsif patient_menu == "View"
                             read_log("belle.txt")
+
+                        elsif patient_menu == "Help (Normal Ranges)"
+                            puts "normal ranges are"
+                            #insert table here
+                        else patient_menu == "Exit Patient Menu"
+                            puts "Goodbye"
+                        break    
                     
                         end
                 
@@ -166,15 +174,19 @@ patient = nil
                     csv << ["#{patient_full_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"]   
                 end    
                 puts "Thank you, #{patient_full_name} has been added to the system"
-                
+            
+            elsif main_menu == "Help"
+                puts "The TPRP Monitor allows you to easily log the temperature, pulse rate\nrespiration rate and pain score of your patients"
+                puts "Use the up and down arrows to navigate the menu"
+            break       
 
             else patient_menu == "Exit"
                 puts "Thank you #{user_name}, you have now logged out"
-                sleep 10
-                user = nil
-            
-                
+                sleep 5
+                user = nil 
+            break
             end
+       
         end
     end    
 
