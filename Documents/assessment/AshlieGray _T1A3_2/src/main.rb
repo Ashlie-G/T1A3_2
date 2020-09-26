@@ -31,38 +31,28 @@ class Patient
 end
 
 @patient_log = []
-# def view_log(log) 
-#     @patient_log << log
-#     File.foreach("belle.txt") {|line| @patient_log.push(line)}
-#     puts @patient_log
-    
-# end
-
-# def add_log(temperature, pulse, respiration, pain)
-#     @patient_log = temperature, pulse, respiration, pain
-#     File.write("belle.txt", @patient_log, mode: "a")
-# end
-
-
 #attempt to move data to csv's
 def view_log 
-       puts CSV.read("angus.csv")
-       puts "#{@username}, #{Time.now}"
-    #    CSV.foreach("angus.csv") do |row|
-    #     table = TTY::Table.new
-    #     table << ["Temp", "Pulse", "Resp Rate"]
-    #     table << [temp, pulse, resprate]
-    #    end
+        plog = CSV.parse(File.read("angus.csv"), headers: true)
+    #    table = TTY::Table.new
+    #    table << plog
     #    puts table.render(:ascii)
+       puts plog
+       
+    #    CSV.foreach("angus.csv") do |row|
+
 end
-    
+
 def add_log(temperature, pulse, respiration)
         @patient_log = temperature, pulse, respiration
-    CSV.open("angus.csv", "w") do |csv|
+    CSV.open("angus.csv", "a") do |csv|
         csv << ["Temp", "Pulse", "Resp Rate"]
         csv << [temperature, pulse, respiration]
+        csv << ["#{@username}", Time.now]
     end
-       
+    
+     
+     
 end
 # table = TTY::Table.new
 # table << ["a1","a2"]
@@ -88,8 +78,9 @@ end
 
 #opening menu
 prompt = TTY::Prompt.new
+prompt = TTY::Prompt.new(active_color: :cyan)
 
-puts "TPRP Monitor"
+puts "Welcome to the TPR Monitor".colorize(:red)
 sleep 1
 welcome = prompt.select("Login or Create New") do |menu|
 menu.choice "Login"
