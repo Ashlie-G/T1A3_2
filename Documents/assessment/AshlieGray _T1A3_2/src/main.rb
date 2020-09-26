@@ -1,6 +1,7 @@
 require 'colorize'
 require 'colorized_string'
 require 'tty-prompt'
+require 'tty-table'
 require 'csv'
 
 
@@ -146,8 +147,10 @@ patient = nil
                             read_log("belle.txt")
 
                         elsif patient_menu == "Help (Normal Ranges)"
-                            puts "normal ranges are"
-                            #insert table here
+                            puts "normal ranges are:"
+                            normalrange = TTY::Table.new(["Dog","Cat","Guinea Pig"], [["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
+                            puts normalrange.render(:ascii)
+                            puts "bpm = beats per minute\nbrpm = breaths per minute"
                         else patient_menu == "Exit Patient Menu"
                             puts "Goodbye"
                         break    
