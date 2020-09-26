@@ -32,14 +32,14 @@ end
 @patient_log = []
 def read_log(log) 
     @patient_log << log
-    File.foreach("#{@full_name}.txt") {|line| @patient_log.push(line)}
+    File.foreach("belle.txt") {|line| @patient_log.push(line)}
     puts @patient_log
     
 end
 
 def add_log(temperature, pulse, respiration, pain)
     @patient_log = temperature, pulse, respiration, pain
-    File.write("#{@full_name}.txt", @patient_log, mode: "a")
+    File.write("belle.txt", @patient_log, mode: "a")
 end
 
 #databases
@@ -75,32 +75,39 @@ patient = nil
 
     loop do    
         if  welcome == "Create Account"
-        user_name= prompt.ask("Enter a username")
-        user_password = prompt.mask("Enter a password")
-        user = User.new(user_name, user_password)
-        user_list << user
-        CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] } 
+            user_name= prompt.ask("Enter a username")
+            user_password = prompt.mask("Enter a password")
+            user = User.new(user_name, user_password)
+            user_list << user
+            CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] } 
             puts "Welcome #{user_name}, you are now logged in"
 
-            elsif welcome == "Login"
-            username = prompt.ask("Enter username")
-            current_user = user_list.find{ |user| user.username == username}
-                if username == current_user.username
-                password = prompt.mask('Enter your password')
-                if password == current_user.password
-                   user == current_user
-                else
-                puts "Access Denied"
-                end 
-                
+        elsif welcome == "Login"
+                    username = prompt.ask("Enter username")
+                    current_user = user_list.find{ |user| user.username == username}
+                    begin
+                        if username == current_user.username
+                            password = prompt.mask('Enter your password')
+                            if password == current_user.password
+                                user == current_user
+                            else
+                                puts "Invalid username"
+                            end 
+                        else
+                            puts "Invalid password"
+                        end
+                    rescue
+                        puts "User does not exist"
+                        break
+                    end
         elsif welcome == "Exit"
                 user = nil
                 break
         else
             puts "invalid Input"
-            break
+            
         end
-    end
+    
     
     loop do
         main_menu = prompt.select("What would you like to do?") do |menu|
@@ -133,7 +140,7 @@ patient = nil
                         add_log(temp, pulse,resprate, pain)
                         
                     elsif patient_menu == "Read"
-                            read_log(log)
+                            read_log("belle.txt")
                     
                         end
                     
@@ -151,17 +158,17 @@ patient = nil
                 CSV.open("Patients.csv", "a") do |csv| 
                     csv << ["#{patient_full_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"]   
                 end    
-                puts "Thank you, #{patient.full_name} has been added to the system"
+                puts "Thank you, #{patient_full_name} has been added to the system"
             elsif patient_menu == "Exit"
             puts "Thank you #{user_name}, you have now logged out"
             user = nil
             system("clear")
             puts ""
-            break
+            
             else 
             puts "why"
+            break
             end
         end
-        
-    end
+    end    
 
