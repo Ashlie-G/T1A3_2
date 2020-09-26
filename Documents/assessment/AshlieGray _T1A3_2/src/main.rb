@@ -32,14 +32,14 @@ end
 @patient_log = []
 def read_log(log) 
     @patient_log << log
-    File.foreach("belle.txt") {|line| @patient_log.push(line)}
+    File.foreach("#{@full_name}.txt") {|line| @patient_log.push(line)}
     puts @patient_log
     
 end
 
 def add_log(temperature, pulse, respiration, pain)
     @patient_log = temperature, pulse, respiration, pain
-    File.write("belle.txt", @patient_log, mode: "a")
+    File.write("#{@full_name}.txt", @patient_log, mode: "a")
 end
 
 #databases
@@ -133,7 +133,7 @@ patient = nil
                         add_log(temp, pulse,resprate, pain)
                         
                     elsif patient_menu == "Read"
-                            read_log("belle.txt")
+                            read_log(log)
                     
                         end
                     
@@ -151,7 +151,7 @@ patient = nil
                 CSV.open("Patients.csv", "a") do |csv| 
                     csv << ["#{patient_full_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"]   
                 end    
-                puts "Thank you, #{patient_full_name} has been added to the system"
+                puts "Thank you, #{patient.full_name} has been added to the system"
             elsif patient_menu == "Exit"
             puts "Thank you #{user_name}, you have now logged out"
             user = nil
