@@ -33,7 +33,7 @@ end
 @patient_log = []
 #attempt to move data to csv's
 def view_log 
-        plog = CSV.parse(File.read("angus.csv"), headers: true)
+        plog = CSV.parse(File.read("#{current_patient.full_name}.csv"), headers: true)
     #    table = TTY::Table.new
     #    table << plog
     #    puts table.render(:ascii)
@@ -45,15 +45,13 @@ end
 
 def add_log(temperature, pulse, respiration)
         @patient_log = temperature, pulse, respiration
-    CSV.open("angus.csv", "a") do |csv|
+    CSV.open("#{current_patient.full_name}.csv", "a") do |csv|
         csv << ["Temp", "Pulse", "Resp Rate"]
         csv << [temperature, pulse, respiration]
-        csv << ["#{@username}", Time.now]
+        csv << ["#{current_user.username}", Time.now]
     end   
 end
-# table = TTY::Table.new
-# table << ["a1","a2"]
-# table << ["b1","b2"]
+
 
 #databases
 user_list = []
@@ -67,11 +65,12 @@ patient_list = []
 CSV.foreach("Patients.csv", headers: true) do |row| 
 patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
 end
+
+#title banner
 title =File.read("title.txt")
 puts title
-# File.readlines("title.txt") do |line|
-#     puts line
-# end
+# https://ascii.co.uk/art/pawprints
+
 #opening menu
 prompt = TTY::Prompt.new
 prompt = TTY::Prompt.new(active_color: :magenta)
@@ -93,8 +92,7 @@ patient = nil
             user = User.new(user_name, user_password)
             user_list << user
             CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] } 
-            puts "Welcome #{user_name}, you are now logged in"
-
+            puts "Welcome #{user.username}, you are now logged in".colorize(:magenta)
         elsif welcome == "Login"
                     username = prompt.ask("Enter username")
                     current_user = user_list.find{ |user| user.username == username}
@@ -103,18 +101,22 @@ patient = nil
                             password = prompt.mask('Enter your password')
                             if password == current_user.password
                                 user == current_user
+                                puts "Welcome #{current_user.username}".colorize(:magenta)
                             else
-                                puts "Invalid username"
+                                puts "Invalid username or password".colorize(:red)
+                                break
                             end 
                         else
-                            puts "Invalid password"
+                            puts "Invalid username or password".colorize(:red)
+                            break
                         end
                     rescue
-                        puts "User does not exist"
+                        puts "User does not exist".colorize(:red)
                         break
                     end
+
         elsif welcome == "Exit"
-              puts " Thankyou for using the TPRP Monitor"
+              puts " Thankyou for using the TPR Tracker"
               user = nil
             break
         else
@@ -145,9 +147,7 @@ patient = nil
                         menu.choice "Help (Normal Ranges)"
                         menu.choice "Exit Patient Menu"   
                         end 
-                      #patient_list << patient
-                       # CSV.open("Patients.csv", "a") do |csv| 
-                        #csv << ["#{patient_full_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"
+                      
                         if  patient_menu == "Add"
                             temp = prompt.ask("Temperature")
                             pulse = prompt.ask("Pulse")
@@ -158,7 +158,7 @@ patient = nil
                               view_log
 
                         elsif patient_menu == "Help (Normal Ranges)"
-                            puts "normal ranges are:"
+                            puts "Normal ranges are:"
                             normalrange = TTY::Table.new(["Dog","Cat","Guinea Pig"], [["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
                             puts normalrange.render(:ascii)
                             puts "bpm = beats per minute\nbrpm = breaths per minute"
@@ -173,7 +173,7 @@ patient = nil
                 
                     end
                 rescue
-                    puts "Patient not found"   
+                    puts "Patient not found".colorize(:red)   
                 end
 
             elsif main_menu == "Add Patient"
@@ -187,7 +187,7 @@ patient = nil
                 CSV.open("Patients.csv", "a") do |csv| 
                     csv << ["#{patient_full_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"]   
                 end    
-                puts "Thank you, #{patient_full_name} has been added to the system"
+                puts "Thank you, #{patient_full_name} has been added to the system".colorize(:magenta)
             
             elsif main_menu == "Help"
                 puts "The TPRP Monitor allows you to easily log the temperature, pulse rate\nrespiration rate and pain score of your patients"
@@ -195,7 +195,7 @@ patient = nil
             break       
 
             else patient_menu == "Exit"
-                puts "Thank you #{user_name}, you have now logged out"
+                puts "Thank you #{current_user.username}, you have now logged out".colorize(:magenta)
                 sleep 5
                 user = nil 
             break
