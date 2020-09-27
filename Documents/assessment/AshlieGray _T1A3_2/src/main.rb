@@ -1,5 +1,4 @@
 require 'colorize'
-require 'colorized_string'
 require 'tty-prompt'
 require 'tty-table'
 require 'csv'
@@ -33,22 +32,23 @@ end
 @patient_log = []
 #attempt to move data to csv's
 def view_log 
-        plog = CSV.parse(File.read("#{current_patient.full_name}.csv"), headers: true)
-    #    table = TTY::Table.new
-    #    table << plog
-    #    puts table.render(:ascii)
-       puts plog
-       
-    #    CSV.foreach("angus.csv") do |row|
+    @patient_log =CSV.parse(File.read(".csv"), headers: true)
+    #    log_table = TTY::Table.new
+    #    log_table << @patient_log
+    #    puts log_table.render(:ascii)
+    puts @patient_log
+#    log_table = TTY::Table.new(["Temperature", "Pulse", "Resp Rate"],[[temperature, pulse, respiration]])
+#     puts log_table.render(:ascii)
+   
 
 end
 
 def add_log(temperature, pulse, respiration)
         @patient_log = temperature, pulse, respiration
-    CSV.open("#{current_patient.full_name}.csv", "a") do |csv|
+    CSV.open(".csv", "a") do |csv|
         csv << ["Temp", "Pulse", "Resp Rate"]
         csv << [temperature, pulse, respiration]
-        csv << ["#{current_user.username}", Time.now]
+        csv << ["#{@username}", Time.now]
     end   
 end
 
@@ -74,8 +74,6 @@ puts title
 #opening menu
 prompt = TTY::Prompt.new
 prompt = TTY::Prompt.new(active_color: :magenta)
-
-sleep 1
 
 welcome = prompt.select("Login or Create New") do |menu|
 menu.choice "Login"
@@ -116,12 +114,12 @@ patient = nil
                     end
 
         elsif welcome == "Exit"
-              puts " Thankyou for using the TPR Tracker"
+              puts "Thankyou for using the TPR Tracker".colorize(:magenta)
               user = nil
             break
         else
             puts "invalid Input"
-            
+        break    
         end
     
     

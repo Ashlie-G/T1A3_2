@@ -13,8 +13,8 @@
         | |                        | |     | |      
        (___)                      (___)   (___)     
     Temperature, Pulse & Respiratory Tracker
-                        h  h
-                      h(")(")h
+                        n  n
+                      n(")(")n
                      ("),--.(")
                       :"    ";
                       `.____,'
