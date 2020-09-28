@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require 'colorize'
 require 'tty-prompt'
 require 'tty-table'
@@ -34,29 +35,25 @@ end
 @patient_log = []
 
 def view_log(patient) 
-# log_table = TTY::Table.new
-#  CSV.foreach(".csv", headers :true) do |row|
-#     log_table << row
-#     log_table << row
-#  end
-#     puts log_table.render(:ascii)
-#    log_table = TTY::Table.new
-#    log_table << @patient_log
-#    puts log_table.render(:ascii)    
-#    log_table = TTY::Table.new(["Temperature", "Pulse", "Resp Rate"],[[temperature, pulse, respiration]])
-#     puts log_table.render(:ascii)
 
-    @patient_log =CSV.parse(File.read("#{patient}.csv"), headers: true)
-    puts @patient_log
+#    log =CSV.read("#{patient}.csv", headers: true)
+#     table = TTY::Table.new
+#     table << log
+#     puts table.render(:ascii, width: 50, resize: true)
+   #puts log
+
+
+@patient_log =CSV.parse(File.read("#{patient}.csv"), headers: true)
+puts @patient_log
 
 end
 
-def add_log(patient, temperature, pulse, respiration)
+def add_log(patient, temperature, pulse, respiration, user)
     @patient_log = temperature, pulse, respiration
     CSV.open("#{patient}.csv", "a") do |csv|
     csv << ["Temp", "Pulse", "Resp Rate"]
     csv << [temperature, pulse, respiration]
-    csv << ["", Time.now]
+    csv << ["#{user}", Time.now]
     end   
 end
 
@@ -97,33 +94,34 @@ patient = nil
     loop do   
         
         if  welcome == "Create Account"
-            user_name= prompt.ask("Enter a username")
-            user_password = prompt.mask("Enter a password")
+            user_name= prompt.ask("Enter a username", required: true)
+            user_password = prompt.mask("Enter a password", required: true)
             user = User.new(user_name, user_password)
             user_list << user
             CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] } 
             puts "Welcome #{user.username}, you are now logged in".colorize(:magenta)
-        
-        elsif welcome == "Login"
-                    username = prompt.ask("Enter username")
+          
+            
+                elsif welcome == "Login"
+                    username = prompt.ask("Enter username", required: true)
                     current_user = user_list.find{ |user| user.username == username}
                     begin
                         if username == current_user.username
-                            password = prompt.mask('Enter your password')
+                            password = prompt.mask("Enter your password", required: true)
                             if password == current_user.password
                                 user = current_user
                                 puts "Welcome #{current_user.username}".colorize(:magenta)
                             else
                                 puts "Invalid username or password".colorize(:red)
-                                break
+                            break    
                             end 
                         else
                             puts "Invalid username or password".colorize(:red)
-                            break
+                        break    
                         end
                     rescue
                         puts "User does not exist".colorize(:red)
-                        break
+                    break    
                     end
 
         elsif welcome == "Exit"
@@ -137,7 +135,7 @@ patient = nil
         end
     
     
-         loop do
+        loop do
             main_menu = prompt.select("What would you like to do?") do |menu|
             menu.choice "Find Patient"
             menu.choice "Add Patient"
@@ -146,7 +144,7 @@ patient = nil
             end
         
             if main_menu == "Find Patient" 
-                patient_full_name= prompt.ask("Patient Full Name")
+                patient_full_name= prompt.ask("Patient Full Name", required: true)
                 current_patient = patient_list.find{ |patient| patient.full_name == patient_full_name}
                 begin    
                     if patient_full_name = current_patient.full_name
@@ -161,11 +159,12 @@ patient = nil
                             end 
                         
                             if  patient_menu == "Add"
-                                temp = prompt.ask("Temperature")
-                                pulse = prompt.ask("Pulse")
-                                resprate = prompt.ask("Resp")
+                                temp = prompt.ask("Temperature", required: true)
+                                pulse = prompt.ask("Pulse", required: true)
+                                resprate = prompt.ask("Resp", required: true)
                                 patient = current_patient.full_name
-                                add_log(patient, temp, pulse, resprate)
+                                user = current_user.username
+                                add_log(patient, temp, pulse, resprate, user)
                 
                             elsif patient_menu == "View"
                                 patient = current_patient.full_name
@@ -176,7 +175,7 @@ patient = nil
                                 normalrange = TTY::Table.new(["Dog","Cat","Guinea Pig"], [["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
                                 puts normalrange.render(:ascii)
                                 puts "bpm = beats per minute\nbrpm = breaths per minute"
-                            break
+                            
                             else patient_menu == "Exit Patient Menu"
                                  patient = nil
                         break
@@ -193,11 +192,11 @@ patient = nil
                 end
             
             elsif main_menu == "Add Patient"
-                patient_full_name= prompt.ask("Patient Full Name")
-                patient_species= prompt.ask("Patient Species")
-                patient_breed= prompt.ask("Patient Breed")
-                patient_age= prompt.ask("Patient Age")
-                patient_sex= prompt.ask("Patient Sex")
+                patient_full_name= prompt.ask("Patient Full Name", required: true)
+                patient_species= prompt.ask("Patient Species", required: true)
+                patient_breed= prompt.ask("Patient Breed", required: true)
+                patient_age= prompt.ask("Patient Age", required: true)
+                patient_sex= prompt.ask("Patient Sex", required: true)
                 patient = Patient.new(patient_full_name, patient_species, patient_breed, patient_age, patient_sex)
                 patient_list << patient
                 CSV.open("Patients.csv", "a") do |csv| 
