@@ -45,13 +45,19 @@ end
 
 def add_log(temperature, pulse, respiration)
         @patient_log = temperature, pulse, respiration
-    CSV.open(".csv", "a") do |csv|
+    CSV.open("#{full_name}.csv", "a") do |csv|
         csv << ["Temp", "Pulse", "Resp Rate"]
         csv << [temperature, pulse, respiration]
         csv << ["#{@username}", Time.now]
     end   
 end
 
+#title banner
+def title_screen
+    title =File.read("title.txt")
+    puts title
+    # https://ascii.co.uk/art/pawprints
+end
 
 #databases
 user_list = []
@@ -66,11 +72,8 @@ CSV.foreach("Patients.csv", headers: true) do |row|
 patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
 end
 
-#title banner
-title =File.read("title.txt")
-puts title
-# https://ascii.co.uk/art/pawprints
 
+title_screen
 #opening menu
 prompt = TTY::Prompt.new
 prompt = TTY::Prompt.new(active_color: :magenta)
@@ -91,6 +94,7 @@ patient = nil
             user_list << user
             CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] } 
             puts "Welcome #{user.username}, you are now logged in".colorize(:magenta)
+        
         elsif welcome == "Login"
                     username = prompt.ask("Enter username")
                     current_user = user_list.find{ |user| user.username == username}
@@ -116,6 +120,7 @@ patient = nil
         elsif welcome == "Exit"
               puts "Thankyou for using the TPR Tracker".colorize(:magenta)
               user = nil
+             
             break
         else
             puts "invalid Input"
@@ -123,7 +128,7 @@ patient = nil
         end
     
     
-        loop do
+         loop do
             main_menu = prompt.select("What would you like to do?") do |menu|
             menu.choice "Find Patient"
             menu.choice "Add Patient"
@@ -137,35 +142,36 @@ patient = nil
                 begin    
                     if patient_full_name == current_patient.full_name
                        patient == current_patient
-                
-                        patient != nil
-                        patient_menu = prompt.select("Would you like to add log or view log?") do |menu|
-                        menu.choice "Add"
-                        menu.choice "View"
-                        menu.choice "Help (Normal Ranges)"
-                        menu.choice "Exit Patient Menu"   
-                        end 
+                        loop do
+                            patient != nil
+                            patient_menu = prompt.select("Would you like to add log or view log?") do |menu|
+                            menu.choice "Add"
+                            menu.choice "View"
+                            menu.choice "Help (Normal Ranges)"
+                            menu.choice "Exit Patient Menu"   
+                            end 
                       
-                        if  patient_menu == "Add"
-                            temp = prompt.ask("Temperature")
-                            pulse = prompt.ask("Pulse")
-                            resprate = prompt.ask("Resp")
-                            add_log(temp, pulse,resprate)
+                            if  patient_menu == "Add"
+                                temp = prompt.ask("Temperature")
+                                pulse = prompt.ask("Pulse")
+                                resprate = prompt.ask("Resp")
+                                add_log(temp, pulse,resprate)
                         
-                        elsif patient_menu == "View"
+                            elsif patient_menu == "View"
                               view_log
 
-                        elsif patient_menu == "Help (Normal Ranges)"
-                            puts "Normal ranges are:"
-                            normalrange = TTY::Table.new(["Dog","Cat","Guinea Pig"], [["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
-                            puts normalrange.render(:ascii)
-                            puts "bpm = beats per minute\nbrpm = breaths per minute"
-                        else patient_menu == "Exit Patient Menu"
-                            puts "Goodbye"
-                        break    
+                            elsif patient_menu == "Help (Normal Ranges)"
+                                puts "Normal ranges are:"
+                                normalrange = TTY::Table.new(["Dog","Cat","Guinea Pig"], [["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
+                                puts normalrange.render(:ascii)
+                                puts "bpm = beats per minute\nbrpm = breaths per minute"
+                            else patient_menu == "Exit Patient Menu"
+                                
+                            break
+                            
                     
+                            end
                         end
-                
                     else
                         puts "Invalid"
                 
@@ -173,7 +179,7 @@ patient = nil
                 rescue
                     puts "Patient not found".colorize(:red)   
                 end
-
+            
             elsif main_menu == "Add Patient"
                 patient_full_name= prompt.ask("Patient Full Name")
                 patient_species= prompt.ask("Patient Species")
@@ -192,13 +198,13 @@ patient = nil
                 puts "Use the up and down arrows to navigate the menu"
             break       
 
-            else patient_menu == "Exit"
+            else main_menu == "Exit"
                 puts "Thank you #{current_user.username}, you have now logged out".colorize(:magenta)
-                sleep 5
+                sleep 2
                 user = nil 
             break
             end
        
-        end
+         end
     end    
 
