@@ -51,8 +51,8 @@ end
 def add_log(patient, temperature, pulse, respiration, user)
     @patient_log = temperature, pulse, respiration
     CSV.open("#{patient}.csv", "a") do |csv|
-    csv << ["Temp", "Pulse", "Resp Rate"]
-    csv << [temperature, pulse, respiration]
+    csv << ["Temp ", "Pulse ", "Resp Rate "]
+    csv << [temperature + "°" + " ", pulse + "bpm" + " ", respiration + "brpm"]
     csv << ["#{user}", Time.now]
     end   
 end
@@ -81,15 +81,15 @@ end
 title_screen
 #opening menu
 prompt = TTY::Prompt.new(active_color: :magenta)
+#loop do
+    welcome = prompt.select("Login or Create New", help: "(Case Sensative)", show_help: :always) do |menu|
+    menu.choice "Login"
+    menu.choice "Create Account"
+    menu.choice "Exit"   
+    end
 
-welcome = prompt.select("Login or Create New") do |menu|
-menu.choice "Login"
-menu.choice "Create Account"
-menu.choice "Exit"   
-end
-
-user = nil
-patient = nil 
+    user = nil
+    patient = nil 
 
     loop do   
         
@@ -102,27 +102,27 @@ patient = nil
             puts "Welcome #{user.username}, you are now logged in".colorize(:magenta)
           
             
-                elsif welcome == "Login"
-                    username = prompt.ask("Enter username", required: true)
-                    current_user = user_list.find{ |user| user.username == username}
-                    begin
-                        if username == current_user.username
-                            password = prompt.mask("Enter your password", required: true)
-                            if password == current_user.password
-                                user = current_user
-                                puts "Welcome #{current_user.username}".colorize(:magenta)
-                            else
-                                puts "Invalid username or password".colorize(:red)
-                            break    
-                            end 
+            elsif welcome == "Login"
+                  username = prompt.ask("Enter username", required: true)
+                  current_user = user_list.find{ |user| user.username == username}
+                begin
+                    if username == current_user.username
+                        password = prompt.mask("Enter your password", required: true)
+                        if password == current_user.password
+                            user = current_user
+                            puts "Welcome #{current_user.username}".colorize(:magenta)
                         else
                             puts "Invalid username or password".colorize(:red)
                         break    
-                        end
-                    rescue
-                        puts "User does not exist".colorize(:red)
+                        end 
+                    else
+                        puts "Invalid username or password".colorize(:red)
                     break    
                     end
+                rescue
+                    puts "Could not find user, try again or create new user".colorize(:red)
+                break    
+                end
 
         elsif welcome == "Exit"
               puts "Thankyou for using the TPR Tracker".colorize(:magenta)
@@ -205,17 +205,17 @@ patient = nil
                 puts "Thank you, #{patient_full_name} has been added to the system".colorize(:magenta)
             
             elsif main_menu == "Help"
-                puts "The TPRP Monitor allows you to easily log the temperature, pulse and rate\nrespiration rate of your patients"
-                puts "Use the up and down arrows to navigate the menu"
+                puts "The TPRP Monitor allows you to easily log the temperature, pulse and respiration rate of your patients".colorize(:magenta)
+                puts "Use the up and down arrows to navigate the menu".colorize(:light_blue)
                    
 
             else main_menu == "Exit"
                 puts "Thank you #{current_user.username}, you have now logged out".colorize(:magenta)
                 sleep 2
                 user = nil 
-            break
+            break    
             end
        
-         end
-    end    
-
+        end
+    end
+#end    
