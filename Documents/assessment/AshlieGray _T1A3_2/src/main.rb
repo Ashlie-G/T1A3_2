@@ -4,9 +4,6 @@ require 'tty-prompt'
 require 'tty-table'
 require 'csv'
 
-
-
-
 #classes and methods
 class User
     attr_reader :username, :password
@@ -51,8 +48,8 @@ end
 def add_log(patient, temperature, pulse, respiration, user)
     @patient_log = temperature, pulse, respiration
     CSV.open("#{patient}.csv", "a") do |csv|
-    csv << ["Temp ", "Pulse ", "Resp Rate "]
-    csv << [temperature + "°" + " ", pulse + "bpm" + " ", respiration + "brpm"]
+    csv << ["Temperature ", "Pulse ", "Resp Rate "]
+    csv << [temperature + "°C" + " ", pulse + "bpm" + " ", respiration + "brpm"]
     csv << ["#{user}", Time.now]
     end   
 end
@@ -88,8 +85,9 @@ prompt = TTY::Prompt.new(active_color: :magenta)
     menu.choice "Exit"   
     end
 
-    user = nil
-    patient = nil 
+    
+    patient = nil
+    user = nil 
 
     loop do   
         
@@ -98,8 +96,9 @@ prompt = TTY::Prompt.new(active_color: :magenta)
             user_password = prompt.mask("Enter a password", required: true)
             user = User.new(user_name, user_password)
             user_list << user
+            user = current_user
             CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] } 
-            puts "Welcome #{user.username}, you are now logged in".colorize(:magenta)
+            puts "Welcome #{current_user}, you are now logged in".colorize(:magenta)
           
             
             elsif welcome == "Login"
@@ -136,7 +135,7 @@ prompt = TTY::Prompt.new(active_color: :magenta)
     
     
         loop do
-            main_menu = prompt.select("What would you like to do?") do |menu|
+            main_menu = prompt.select("What would you like to do?" , help: "(Case Sensative)", show_help: :always) do |menu|
             menu.choice "Find Patient"
             menu.choice "Add Patient"
             menu.choice "Help"
@@ -145,10 +144,11 @@ prompt = TTY::Prompt.new(active_color: :magenta)
         
             if main_menu == "Find Patient" 
                 patient_full_name= prompt.ask("Patient Full Name", required: true)
-                current_patient = patient_list.find{ |patient| patient.full_name == patient_full_name}
+                current_patient = patient_list.find{ |patient| patient.full_name = patient_full_name}
                 begin    
                     if patient_full_name = current_patient.full_name
                        patient = current_patient.full_name
+                       #puts "#{current_patient.full_name} is a #{current_patient.species} #{current_patient.breed}, is #{current_patient.age} years old and is #{current_patient.sex}".colorize(:light_blue)
                         loop do
                             patient != nil
                             patient_menu = prompt.select("Would you like to add log or view log?") do |menu|
