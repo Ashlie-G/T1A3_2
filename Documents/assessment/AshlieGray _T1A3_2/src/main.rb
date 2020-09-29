@@ -6,7 +6,7 @@ require 'csv'
 
 #classes and methods
 class User
-    attr_reader :username, :password
+    attr_accessor :username, :password
     def initialize(username, password)
         @username = username
         @password = password
@@ -85,13 +85,13 @@ prompt = TTY::Prompt.new(active_color: :magenta)
     loop do   
         
         if  welcome == "Create Account"
+            current_user = nil
             user_name= prompt.ask("Enter a username", required: true)
             user_password = prompt.mask("Enter a password", required: true)
             user = User.new(user_name, user_password)
             user_list << user
-            
             CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] } 
-            puts "Welcome #{current_user}, you are now logged in".colorize(:magenta)
+            puts "Welcome #{user_name}, you are now logged in".colorize(:magenta)
             user = current_user
             
             elsif welcome == "Login"
@@ -142,7 +142,7 @@ prompt = TTY::Prompt.new(active_color: :magenta)
                 begin    
                     if patient_full_name = current_patient.full_name
                        patient = current_patient.full_name
-                       puts "#{current_patient.full_name} is a #{current_patient.species} #{current_patient.breed}, is #{current_patient.age} years old and is #{current_patient.sex}".colorize(:light_blue)
+                       puts "#{current_patient.full_name} is #{current_patient.species}, is a #{current_patient.breed}, is #{current_patient.age} years old and is #{current_patient.sex}".colorize(:light_blue)
                         loop do
                             patient != nil
                             patient_menu = prompt.select("Would you like to add log or view log?") do |menu|
@@ -161,9 +161,12 @@ prompt = TTY::Prompt.new(active_color: :magenta)
                                 add_log(patient, temp, pulse, resprate, user)
                 
                             elsif patient_menu == "View"
-                                patient == current_patient.full_name
-                                view_log(patient)
-
+                                begin
+                                    patient == current_patient.full_name
+                                    view_log(patient)
+                                rescue
+                                    puts "no record yet, add log"
+                                end
                             elsif patient_menu == "Help (Normal Ranges)"
                                 puts "Normal ranges are:"
                                 normalrange = TTY::Table.new(["Dog","Cat","Guinea Pig"], [["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
