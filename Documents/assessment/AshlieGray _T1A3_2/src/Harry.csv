@@ -1,18 +1,12 @@
-Temp,Pulse,Resp Rate
 33,33,33
-"",2020-09-28 13:59:20 +1000
-Temp,Pulse,Resp Rate
 33,44,55
-Temp,Pulse,Resp Rate
 44,200,22
-Temp,Pulse,Resp Rate
 44,44,44
-Temp,Pulse,Resp Rate
 33,22,11
-Temp,Pulse,Resp Rate
 38,120,32
-Temp,Pulse,Resp Rate
 40,100,20
-Temp,Pulse,Resp Rate
-39,122,33
-vet,2020-09-28 15:03:01 +1000
+39,122,3345°C ,122bpm ,33brpm
+Tony,2020-09-29 13:51:53 +1000
+40°C ,130bpm ,30brpm
+
+42°C ,133bpm ,22brpm,Tony,2020-09-29 14:03:00 +1000

@@ -33,24 +33,19 @@ end
 
 def view_log(patient) 
 
-#    log =CSV.read("#{patient}.csv", headers: true)
-#     table = TTY::Table.new
-#     table << log
-#     puts table.render(:ascii, width: 50, resize: true)
-   #puts log
+    @patient_log =CSV.parse(File.read("#{patient}.csv"))
+    normalrange = TTY::Table.new(["Temp","Pulse","Resp Rate", "User"], @patient_log.to_a)
+    puts normalrange.render(:ascii)
+    # ["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
 
-
-@patient_log =CSV.parse(File.read("#{patient}.csv"), headers: true)
-puts @patient_log
 
 end
 
 def add_log(patient, temperature, pulse, respiration, user)
     @patient_log = temperature, pulse, respiration
     CSV.open("#{patient}.csv", "a") do |csv|
-    csv << ["Temperature ", "Pulse ", "Resp Rate "]
-    csv << [temperature + "°C" + " ", pulse + "bpm" + " ", respiration + "brpm"]
-    csv << ["#{user}", Time.now]
+    csv << [temperature + "°C" + " ", pulse + "bpm" + " ", respiration + "brpm", user]
+    #csv << ["#{user}", Time.now]
     end   
 end
 
@@ -65,13 +60,13 @@ end
 user_list = []
 
 CSV.foreach("Users.csv", headers: true) do |row| 
-user_list << User.new(row["username"], row["password"])
+    user_list << User.new(row["username"], row["password"])
 end
 
 patient_list = []
 
 CSV.foreach("Patients.csv", headers: true) do |row| 
-patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
+    patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
 end
 
 
@@ -144,11 +139,12 @@ prompt = TTY::Prompt.new(active_color: :magenta)
         
             if main_menu == "Find Patient" 
                 patient_full_name= prompt.ask("Patient Full Name", required: true)
-                current_patient = patient_list.find{ |patient| patient.full_name = patient_full_name}
+                current_patient = patient_list.find{ |patient| patient.full_name == patient_full_name}
+                
                 begin    
                     if patient_full_name = current_patient.full_name
                        patient = current_patient.full_name
-                       #puts "#{current_patient.full_name} is a #{current_patient.species} #{current_patient.breed}, is #{current_patient.age} years old and is #{current_patient.sex}".colorize(:light_blue)
+                       puts "#{current_patient.full_name} is a #{current_patient.species} #{current_patient.breed}, is #{current_patient.age} years old and is #{current_patient.sex}".colorize(:light_blue)
                         loop do
                             patient != nil
                             patient_menu = prompt.select("Would you like to add log or view log?") do |menu|
