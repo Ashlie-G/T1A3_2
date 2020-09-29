@@ -16,7 +16,7 @@ end
 
 class Patient
     attr_reader :species, :breed, :age, :sex
-    attr_accessor :full_name
+    attr_accessor :full_name, :patient_log
     def initialize(full_name, species, breed, age, sex)
         @full_name = full_name
         @species =species
@@ -37,8 +37,6 @@ def view_log(patient)
     normalrange = TTY::Table.new(["Temp","Pulse","Resp Rate", "User"], @patient_log.to_a)
     puts normalrange.render(:ascii)
     # ["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
-
-
 end
 
 def add_log(patient, temperature, pulse, respiration, user)
@@ -91,10 +89,10 @@ prompt = TTY::Prompt.new(active_color: :magenta)
             user_password = prompt.mask("Enter a password", required: true)
             user = User.new(user_name, user_password)
             user_list << user
-            user = current_user
+            
             CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] } 
             puts "Welcome #{current_user}, you are now logged in".colorize(:magenta)
-          
+            user = current_user
             
             elsif welcome == "Login"
                   username = prompt.ask("Enter username", required: true)
@@ -163,7 +161,7 @@ prompt = TTY::Prompt.new(active_color: :magenta)
                                 add_log(patient, temp, pulse, resprate, user)
                 
                             elsif patient_menu == "View"
-                                patient = current_patient.full_name
+                                patient == current_patient.full_name
                                 view_log(patient)
 
                             elsif patient_menu == "Help (Normal Ranges)"
