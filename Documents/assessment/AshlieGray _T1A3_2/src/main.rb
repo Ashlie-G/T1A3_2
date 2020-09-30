@@ -12,6 +12,7 @@ class User
         @password = password
         
     end
+
 end
 
 class Patient
@@ -101,7 +102,7 @@ prompt = TTY::Prompt.new(active_color: :magenta)
                     if username == current_user.username
                         password = prompt.mask("Enter your password", required: true)
                         if password == current_user.password
-                            user = current_user
+                            user = current_user.username
                             puts "Welcome #{current_user.username}".colorize(:magenta)
                         else
                             puts "Invalid username or password".colorize(:red)
