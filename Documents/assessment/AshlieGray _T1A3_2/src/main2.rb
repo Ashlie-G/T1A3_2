@@ -72,20 +72,21 @@ end
 
 
 
-CSV.foreach("Users.csv", headers: true) do |row| 
-    user_list << User.new(row["username"], row["password"])
-end
 
-
-CSV.foreach("Patients.csv", headers: true) do |row| 
-    patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
-end
 
 
 title_screen
 #opening menu
 prompt = TTY::Prompt.new(active_color: :magenta)
-#loop do
+begin
+    CSV.foreach("Users.csv", headers: true) do |row| 
+    user_list << User.new(row["username"], row["password"])
+    end
+rescue (Errno::ENOENT)
+    puts "No user's on file, please create account".colorize(:red)
+end
+
+loop do
     welcome = prompt.select("Login or Create New", help: "(Case Sensative)", show_help: :always) do |menu|
     menu.choice "Login"
     menu.choice "Create Account"
@@ -96,7 +97,7 @@ prompt = TTY::Prompt.new(active_color: :magenta)
     patient = nil
     user = nil 
 
-    loop do   
+    #loop do   
         
         if  welcome == "Create Account"
             user_name = prompt.ask("Enter a username", required: true)
@@ -107,9 +108,12 @@ prompt = TTY::Prompt.new(active_color: :magenta)
             user = current_user.username 
         
             elsif welcome == "Login"
+                begin
                   username = prompt.ask("Enter username", required: true)
                   current_user = user_list.find{ |user| user.username == username }
-                begin
+                rescue (NoMethodError)
+                    puts "?"
+                    break
                     if username == current_user.username
                         password = prompt.mask("Enter your password", required: true)
                         if password == current_user.password
@@ -137,6 +141,14 @@ prompt = TTY::Prompt.new(active_color: :magenta)
             puts "invalid Input"
         break    
         end
+
+        begin
+            CSV.foreach("Patients.csv", headers: true) do |row| 
+                patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
+            end
+            rescue (Errno::ENOENT)
+                puts "No patient's on file, please create patient profile".colorize(:red)
+        end
     
         loop do
             main_menu = prompt.select("What would you like to do?" , help: "(Case Sensative)", show_help: :always) do |menu|
@@ -147,7 +159,7 @@ prompt = TTY::Prompt.new(active_color: :magenta)
             end
         
             if main_menu == "Find Patient" 
-                patient_full_name= prompt.ask("Patient Full Name", required: true)
+                patient_full_name = prompt.ask("Patient Full Name", required: true)
                 current_patient = patient_list.find{ |patient| patient.full_name == patient_full_name }
                 begin    
                     if patient_full_name = current_patient.full_name
@@ -214,12 +226,13 @@ prompt = TTY::Prompt.new(active_color: :magenta)
                 
             else main_menu == "Exit"
                 puts "Thank you #{current_user.username}, you have now logged out".colorize(:magenta)
-                p user
-                sleep 2
-                user = nil 
+                sleep 1
+                user = nil
+                system("clear")
+                title_screen 
             break    
             end
        
         end
-    end
-#end 
+    #end
+end 
