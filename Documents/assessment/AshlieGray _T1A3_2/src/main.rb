@@ -27,7 +27,6 @@ class Patient
         @patient_log
         
     end
-
    
 end
 @patient_log = []
@@ -86,6 +85,7 @@ prompt = TTY::Prompt.new(active_color: :magenta)
     loop do   
         
         if  welcome == "Create Account"
+        
             current_user = nil
             user_name= prompt.ask("Enter a username", required: true)
             user_password = prompt.mask("Enter a password", required: true)
