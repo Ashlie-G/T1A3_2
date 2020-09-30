@@ -33,12 +33,7 @@ end
 #add user method
 user_list = []
 def create_user(username, password)
-    #current_user = nil
-    user_list = []
     user = User.new(username, password)
-    user_list << user
-    CSV.open("Users.csv", "a") { |csv| csv << ["#{username}", "#{password}"] }  
-    #user == current_user   
 end
 
 #add patient method
@@ -104,14 +99,16 @@ prompt = TTY::Prompt.new(active_color: :magenta)
     loop do   
         
         if  welcome == "Create Account"
-            user_name= prompt.ask("Enter a username", required: true)
+            user_name = prompt.ask("Enter a username", required: true)
             user_password = prompt.mask("Enter a password", required: true)
-            create_user(user_name, user_password)
-            puts "Welcome #{user_name}, you are now logged in".colorize(:magenta)
+            current_user = create_user(user_name, user_password)
+            user_list << user
+            CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] }
+            user = current_user.username 
         
             elsif welcome == "Login"
                   username = prompt.ask("Enter username", required: true)
-                  current_user = user_list.find{ |user| user.username == username}
+                  current_user = user_list.find{ |user| user.username == username }
                 begin
                     if username == current_user.username
                         password = prompt.mask("Enter your password", required: true)
@@ -216,8 +213,8 @@ prompt = TTY::Prompt.new(active_color: :magenta)
                 puts "Use the up and down arrows to navigate the menu".colorize(:light_blue)
                 
             else main_menu == "Exit"
-                puts "Thank you, you have now logged out".colorize(:magenta)
-                p current_user
+                puts "Thank you #{current_user.username}, you have now logged out".colorize(:magenta)
+                p user
                 sleep 2
                 user = nil 
             break    
