@@ -1,4 +1,5 @@
-require bundler/inline
+#!/bin/bash
+#require 'bundler/inline'
 require 'colorize'
 require 'tty-prompt'
 require 'tty-table'
@@ -6,7 +7,7 @@ require 'csv'
 require_relative 'user_class'
 require_relative 'patient_class'
 
-system("bundle install")
+#system("bundle install")
 
 #add user method
 user_list = []

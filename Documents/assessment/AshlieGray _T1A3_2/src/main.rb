@@ -1,45 +1,37 @@
-
-#!/usr/bin/env ruby
+#require 'bundler/inline'
 require 'colorize'
 require 'tty-prompt'
 require 'tty-table'
 require 'csv'
+require_relative 'user_class'
+require_relative 'patient_class'
 
-#classes and methods
-class User
-    attr_accessor :username, :password
-    def initialize(username, password)
-        @username = username
-        @password = password
-        
-    end
+#system("bundle install")
 
+#add user method
+user_list = []
+def create_user(username, password)
+    user = User.new(username, password)
 end
 
-class Patient
-    attr_reader :species, :breed, :age, :sex
-    attr_accessor :full_name, :patient_log
-    def initialize(full_name, species, breed, age, sex)
-        @full_name = full_name
-        @species =species
-        @breed = breed
-        @age = age
-        @sex = sex
-        @patient_log
-        
-    end
-   
+#add patient method
+patient_list = []
+def create_patient(full_name, species, breed, age, sex)
+    #patient_list = []
+    patient = Patient.new(full_name, species, breed, age, sex)
+    # patient_list << patient
+    # CSV.open("Patients.csv", "a") {|csv| csv << ["#{full_name}", "#{species}", "#{breed}", "#{age}", "#{sex}"] }  
 end
+
+#view log method
 @patient_log = []
-
 def view_log(patient) 
-
     @patient_log =CSV.parse(File.read("#{patient}.csv"))
     normalrange = TTY::Table.new(["Temp","Pulse","Resp Rate", "User"], @patient_log.to_a)
-    puts normalrange.render(:ascii)
-    # ["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
+    puts normalrange.render(:ascii)  
 end
 
+#add log method
 def add_log(patient, temperature, pulse, respiration, user)
     @patient_log = temperature, pulse, respiration
     CSV.open("#{patient}.csv", "a") do |csv|
@@ -55,51 +47,44 @@ def title_screen
     # https://ascii.co.uk/art/pawprints
 end
 
-#databases
-user_list = []
-
-CSV.foreach("Users.csv", headers: true) do |row| 
-    user_list << User.new(row["username"], row["password"])
-end
-
-patient_list = []
-
-CSV.foreach("Patients.csv", headers: true) do |row| 
-    patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
-end
-
-
+#Main
 title_screen
-#opening menu
 prompt = TTY::Prompt.new(active_color: :magenta)
-#loop do
+
+begin
+
+    CSV.foreach("Users.csv", headers: true) do |row| 
+    user_list << User.new(row["username"], row["password"])
+    end
+rescue (Errno::ENOENT)
+    puts "No user's on file, please create account".colorize(:red)
+end
+
+loop do
     welcome = prompt.select("Login or Create New", help: "(Case Sensative)", show_help: :always) do |menu|
     menu.choice "Login"
     menu.choice "Create Account"
     menu.choice "Exit"   
     end
 
-    
     patient = nil
     user = nil 
-
-    loop do   
+    #loop do   
         
         if  welcome == "Create Account"
-        
-            current_user = nil
-            user_name= prompt.ask("Enter a username", required: true)
+            user_name = prompt.ask("Enter a username", required: true)
             user_password = prompt.mask("Enter a password", required: true)
-            user = User.new(user_name, user_password)
+            current_user = create_user(user_name, user_password)
             user_list << user
-            CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] } 
-            puts "Welcome #{user_name}, you are now logged in".colorize(:magenta)
-            user = current_user
-            
+            CSV.open("Users.csv", "a") { |csv| csv << ["#{user_name}", "#{user_password}"] }
+            user = current_user.username
+            puts "Thank you #{current_user.username}, you have been added to the system".colorize(:magenta) 
+        
             elsif welcome == "Login"
+                
                   username = prompt.ask("Enter username", required: true)
-                  current_user = user_list.find{ |user| user.username == username}
-                begin
+                  current_user = user_list.find{ |user| user.username == username }
+                begin    
                     if username == current_user.username
                         password = prompt.mask("Enter your password", required: true)
                         if password == current_user.password
@@ -121,13 +106,19 @@ prompt = TTY::Prompt.new(active_color: :magenta)
         elsif welcome == "Exit"
               puts "Thankyou for using the TPR Tracker".colorize(:magenta)
               user = nil
-             
             break
         else
             puts "invalid Input"
         break    
         end
-    
+
+        begin
+            CSV.foreach("Patients.csv", headers: true) do |row| 
+                patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
+            end
+        rescue (Errno::ENOENT)
+            puts "No patient's on file, please create patient profile".colorize(:red)
+        end
     
         loop do
             main_menu = prompt.select("What would you like to do?" , help: "(Case Sensative)", show_help: :always) do |menu|
@@ -138,11 +129,10 @@ prompt = TTY::Prompt.new(active_color: :magenta)
             end
         
             if main_menu == "Find Patient" 
-                patient_full_name= prompt.ask("Patient Full Name", required: true)
-                current_patient = patient_list.find{ |patient| patient.full_name == patient_full_name}
-                
+                patient_name = prompt.ask("Patient Name", required: true)
+                current_patient = patient_list.find{ |patient| patient.full_name == patient_name }
                 begin    
-                    if patient_full_name = current_patient.full_name
+                    if patient_name = current_patient.full_name
                        patient = current_patient.full_name
                        puts "#{current_patient.full_name} is #{current_patient.species}, is a #{current_patient.breed}, is #{current_patient.age} years old and is #{current_patient.sex}".colorize(:light_blue)
                         loop do
@@ -167,7 +157,7 @@ prompt = TTY::Prompt.new(active_color: :magenta)
                                     patient == current_patient.full_name
                                     view_log(patient)
                                 rescue
-                                    puts "no record yet, add log"
+                                    puts "no record yet, please add log".colorize(:red)
                                 end
                             elsif patient_menu == "Help (Normal Ranges)"
                                 puts "Normal ranges are:"
@@ -178,43 +168,40 @@ prompt = TTY::Prompt.new(active_color: :magenta)
                             else patient_menu == "Exit Patient Menu"
                                  patient = nil
                         break
-                            
-                    
                             end
                         end
                     else
                         puts "Invalid"
-                
                     end
                 rescue
                     puts "Patient not found".colorize(:red)   
                 end
             
             elsif main_menu == "Add Patient"
-                patient_full_name= prompt.ask("Patient Full Name", required: true)
+                patient_name= prompt.ask("Patient Full Name", required: true)
                 patient_species= prompt.ask("Patient Species", required: true)
                 patient_breed= prompt.ask("Patient Breed", required: true)
                 patient_age= prompt.ask("Patient Age", required: true)
                 patient_sex= prompt.ask("Patient Sex", required: true)
-                patient = Patient.new(patient_full_name, patient_species, patient_breed, patient_age, patient_sex)
+                current_patient = create_patient(patient_name, patient_species, patient_breed, patient_age, patient_sex)
                 patient_list << patient
-                CSV.open("Patients.csv", "a") do |csv| 
-                    csv << ["#{patient_full_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"]   
-                end    
-                puts "Thank you, #{patient_full_name} has been added to the system".colorize(:magenta)
+                CSV.open("Patients.csv", "a") {|csv| csv << ["#{patient_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"] } 
+                patient = current_patient.full_name
+                puts "Thank you, #{patient_name} has been added to the system".colorize(:magenta)
             
             elsif main_menu == "Help"
                 puts "The TPRP Monitor allows you to easily log the temperature, pulse and respiration rate of your patients".colorize(:magenta)
                 puts "Use the up and down arrows to navigate the menu".colorize(:light_blue)
-                   
-
+                
             else main_menu == "Exit"
                 puts "Thank you #{current_user.username}, you have now logged out".colorize(:magenta)
-                sleep 2
-                user = nil 
+                sleep 1
+                user = nil
+                system("clear")
+                title_screen 
             break    
             end
        
         end
-    end
-#end    
+    #end
+end 

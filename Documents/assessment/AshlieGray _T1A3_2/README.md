@@ -1,3 +1,12 @@
+## R3 References
+ascii paw
+https://ascii.co.uk/art/pawprints
+ascii font
+http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
+
+## R4 Github repository & Trello Board
+https://github.com/Ashlie-G/T1A3_2
+https://trello.com/b/t89yNIU2/tprp-monitor
 ## R5
 Develop a statement of purpose and scope for your application. It must include:
 - describe at a high level what the application will do
@@ -46,3 +55,8 @@ When they have finished, there will be an option to log out of the app.
 - how the user will interact with / use each feature
 - how errors will be handled by the application and displayed to the user
 If the user doesn't input the correct information, the will be presented with an error message and will be looped back to the what would you like to do menu if logged in or the do you have an account prompt if not logged in.
+
+## R8 Control Flow Diagram
+
+## R9 Trello Board
+https://trello.com/b/t89yNIU2/tprp-monitor

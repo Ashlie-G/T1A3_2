@@ -1,3 +1,3 @@
 #!/bin/bash
 
-ruby main2.rb
+#ruby main2.rb
