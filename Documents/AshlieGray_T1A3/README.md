@@ -18,47 +18,55 @@ If accessing from Github, please click https://github.com/Ashlie-G/T1A3_2
 Download the file as a zip and unpack files on your computer
 
 From the command line navigate to the root folder(T1A3_2-master).
-Once you are in the folder run 
+Once you are in the folder run in the command line 
 ``` cd T1A3_2-master/Documents/AshlieGray_T1A3/src``` 
 Once in the src folder, if you do not already have the gem requirements (listed below), please run the following script 
 ```./gem_install.sh```
-From the src folder run the following script to launch the app 
+Once this process is complete or if you already have the required gems installed, from the 'src' folder run the following script to launch the app 
 ```./run_tpr.sh```
-
+Please create a user file if you do not already have an existing one, follow the input prompts and track your patients temperature, pulse and respiratory rate.
 
 **Gem requirements**
- - gem install tty prompt
- - gem install tty table
- - gem install colorize
- - gem install artii
+ - TTY Prompt
+ ```gem install tty prompt```
+
+ - TTY Table
+ ```gem install tty table```
+
+ - Colorize
+ ```gem install colorize```
+
+ - Artii
+ ```gem install artii```
 
 **System Requirements**
 Mac OS
 Ruby 2.7.4 
 
 **App requirements**
-- User account will need to be made in order to attach identity to each record
-
-
+- User account will need to be made in order to attach identity to each record.
 
 
 ### User Interaction
 
 Veterinarians and veterinary nurses will use this in order to save time, log accurate patient information and have this information accessible to everyone. First the user will log in or create an account. During a round, they will approach the animals kennel, confirm the identification of the animal and either navigate to its file or create one. They then perform their check of vital signs, and log it in to the animals file. They then exit that animals file (assuming everything is within normal range) and repeat the process with the next animal. As rounds happen frequently, the log will contain the identity of the vet or nurse who logged it, the time and date. Each patient's file will be amended with each entry so there is a complete picture of its progress throughout it's hospital stay. This can then be attached to the animals digital records.
-Develop an outline of the user interaction and experience for the application.
-Your outline must include:
-- how the user will find out how to interact with / use each feature
-First the app will need the user to log in, it presents them with an option to create an account if the don't already have one.This will loop until they log in, create an account or decide to exit the app.
-The user will be presented with a prompt "What would you like to do?" followed by a list of the options:
+
+First the app will need the user to log in or create an account. The presented with a scrolling menu as follows:
+Welcome to the TPR Tracker
+"Login"
+"Create New"
+"Exit"
+This will loop until they log in, create an account or decide to exit the app.
+The user will be presented with a prompt "What would you like to do?" followed by a list of the options to scroll through:
 "Find Patient"
 "Add Patient"
 "Help"
 "Exit"
-If they select "Find Patient", they will be able to type the patients first and last name. If the patient exists, the user will be presented with the patient menu options:
+If they select "Find Patient", they will be able to type the patients name. If the patient exists, the user will be presented with the patient menu options:
 "Add log"
 "View Log"
 "Help - Normal Values"
-Exit 
+"Exit" 
 If the user selects add log, they will be prompted to add the patients temperature, pulse rate and respiratory rate. They will then loop back to the menu where they can either view the log or repeat the process for the next patient.
 If they select 'view log' the animals monitoring record will print to the screen in a table. 
 If the user is unsure of a value they have inputted, they can select the help menu which will present a table of the normal values for dogs, cats and guinea pigs.
@@ -73,6 +81,11 @@ In terms of authentication, users are presented with error messages if usernames
 If the database files (Csv) are empty, the user will be notified and prompted to create either a user or patient profile.
 
 ### Help
+While using the TPR Tracker, a user may exit the app by pressing Control + C and using the command line prompt: 
+```ruby main.rb -h```
+to get help at any point.
+Installation instructions as above.
+Help menu options available within the app, navigation help in the main menu and normal species parameter value help in the patient menu.
 
 
 
@@ -85,6 +98,9 @@ https://trello.com/b/t89yNIU2/tprp-monitor
 
 
 ### References
+1. TTY-Prompt 2020, Piotr Murach, TTY- Toolkit, viewed 24th September 2020, <https://github.com/piotrmurach/tty-prompt>
+2. TTY-Table 2020, Piotr Murach, TTY-Toolkit, viewed 24th September 2020, <https://github.com/piotrmurach/tty-table>
+3. Colorize 2018, Michał Kalbarczyk, viewed 24th September 2020, <https://github.com/fazibear/colorize>
 Ascii.co.uk 2020, 'Ascii paws', viewed September 28th 2020 from <https://ascii.co.uk/art/pawprints>
 Patorjk.com 2020, 'Ascii Font Generator', vewied 28th September 2020 from <http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20>
 Woof Resources 2020, 'Normal Ranges of Small Animals Parameters', viewed 29th Septmber 2020 from <https://www.woofresources.com.au/free-resources>

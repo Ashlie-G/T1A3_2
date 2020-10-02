@@ -40,7 +40,7 @@ loop do
         current_user = User.new(user_name, user_password)
         user_list << user
         CSV.open("Users.csv", "a") { |csv| csv << ["#{current_user.username}", "#{current_user.password}"] }
-        puts "Thank you #{current_user.username}, you have been added to the system".colorize(:magenta)     
+        puts "Thank you #{current_user.username}, you are now logged in and have been added to the system".colorize(:magenta)     
     
         elsif welcome == "Login"
             username = prompt.ask("Enter username", required: true)
@@ -137,7 +137,7 @@ loop do
                     puts "Invalid"
                 end
             rescue
-                puts "Patient not found".colorize(:red)   
+                puts "Patient not found, please try again".colorize(:red)   
             end
             
         elsif main_menu == "Add Patient"

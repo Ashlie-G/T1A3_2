@@ -16,7 +16,7 @@ end
 
 #title banner
 def title_screen
-    title =File.read("title.txt")
+    title =File.read("title.txt").colorize(:magenta)
     puts title
 end
 user_list = []
