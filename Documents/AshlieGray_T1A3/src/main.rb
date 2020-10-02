@@ -6,6 +6,7 @@ require_relative 'user_class'
 require_relative 'patient_class'
 require_relative 'methods'
 
+
 #databases
 user_list = []
 patient_list = []
@@ -40,27 +41,27 @@ loop do
         user_list << user
         CSV.open("Users.csv", "a") { |csv| csv << ["#{current_user.username}", "#{current_user.password}"] }
         puts "Thank you #{current_user.username}, you have been added to the system".colorize(:magenta)     
-    elsif welcome == "Login"
-        username = prompt.ask("Enter username", required: true)
-        current_user = user_list.find { |user| user.username == username }
-                 
-        begin  
-            if username == current_user.username
-                password = prompt.mask("Enter your password", required: true)
-                if password == current_user.password
-                    user = current_user
-                    puts "Welcome #{current_user.username}".colorize(:magenta)
+    
+        elsif welcome == "Login"
+            username = prompt.ask("Enter username", required: true)
+            current_user = user_list.find { |user| user.username == username }     
+            begin  
+                if username == current_user.username
+                    password = prompt.mask("Enter your password", required: true)
+                    if password == current_user.password
+                        user = current_user
+                        puts "Welcome #{current_user.username}".colorize(:magenta)
+                    else
+                        puts "Invalid username, please run the app again with correct username or create a new account".colorize(:red)
+                    break    
+                    end 
                 else
-                    puts "Invalid username or password".colorize(:red)
+                    puts "Invalid password, please run the app again with correct username or create a new account".colorize(:red)
                 break    
-                end 
-            else
-                puts "Invalid username or password".colorize(:red)
-            break    
-            end
-        rescue
-            puts "Could not find user, try again or create new user".colorize(:red)
-        break   
+                end
+            rescue
+                puts "Something went wrong, please run the app again with correct username or create a new account".colorize(:red)
+            break   
         end
 
     elsif welcome == "Exit"

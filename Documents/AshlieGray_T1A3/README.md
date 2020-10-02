@@ -37,8 +37,8 @@ Mac OS
 Ruby 2.7.4 
 
 **App requirements**
-- User account will need to be made in order to attached identitiy to each record
-- Ensure csv files have appropriate headings (see below example)
+- User account will need to be made in order to attach identity to each record
+
 
 
 
@@ -65,7 +65,7 @@ If the user is unsure of a value they have inputted, they can select the help me
 When the user has finished, they can exit this menu, which loops back to the main, where they can log out of the app.
 
 ### Error Handling
-- how errors will be handled by the application and displayed to the user
+
 As this app is largely based on user input, this leaves room for errors.
 All input is required, nothing can be left empty. The user is presented with a 'value required' message if no input is received.
 If in correct data types are entered, for example when the app is expecting numbers, like in the log feature, an error message will appear stating that the value entered cannot be converted, so number will need to be inputted to move forward.
@@ -73,8 +73,7 @@ In terms of authentication, users are presented with error messages if usernames
 If the database files (Csv) are empty, the user will be notified and prompted to create either a user or patient profile.
 
 ### Help
-If accessing from Github, please click https://github.com/Ashlie-G/T1A3_2
-Navigate to documents/assessment/AshlieGray_T1A3_2
+
 
 
 ### Control Flow Diagram
@@ -86,8 +85,8 @@ https://trello.com/b/t89yNIU2/tprp-monitor
 
 
 ### References
-ascii paw
-https://ascii.co.uk/art/pawprints
-ascii font
-http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20
+Ascii.co.uk 2020, 'Ascii paws', viewed September 28th 2020 from <https://ascii.co.uk/art/pawprints>
+Patorjk.com 2020, 'Ascii Font Generator', vewied 28th September 2020 from <http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20>
+Woof Resources 2020, 'Normal Ranges of Small Animals Parameters', viewed 29th Septmber 2020 from <https://www.woofresources.com.au/free-resources>
+
 
