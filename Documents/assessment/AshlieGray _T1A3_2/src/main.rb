@@ -1,4 +1,3 @@
-#require 'bundler/inline'
 require 'colorize'
 require 'tty-prompt'
 require 'tty-table'
@@ -6,25 +5,10 @@ require 'csv'
 require_relative 'user_class'
 require_relative 'patient_class'
 
-#system("bundle install")
 
-#add user method
 user_list = []
-#def create_user(username, password)
-   
-    # user = User.new(username, password)
-    # user_list << user
-    # CSV.open("Users.csv", "a") { |csv| csv << ["#{user.username}", "#{user.password}"] }
-#end
-
-#add patient method
 patient_list = []
-# def create_patient(full_name, species, breed, age, sex)
-#     patient_list = []
-#     patient = Patient.new(full_name, species, breed, age, sex)
-#     patient_list << patient
-#     CSV.open("Patients.csv", "a") {|csv| csv << ["#{full_name}", "#{species}", "#{breed}", "#{age}", "#{sex}"] }  
-# end
+
 
 #view log method
 @patient_log = []
@@ -132,8 +116,8 @@ loop do
             current_patient = patient_list.find{ |patient| patient.full_name == patient_name }
             begin    
                 if patient_name = current_patient.full_name
-                        #patient_lastname = prompt.ask("Patient Last Name". required: true)
-                        #if patient_lastname = current_patient.last_name
+                    #patient_lastname = prompt.ask("Patient Last Name". required: true)
+                    #if patient_lastname = current_patient.last_name
                     patient = current_patient.full_name
                     puts "#{current_patient.full_name} is #{current_patient.species}, is a #{current_patient.breed}, is #{current_patient.age} years old and is #{current_patient.sex}".colorize(:light_blue)
                     loop do
@@ -154,8 +138,9 @@ loop do
                             add_log(patient, temp, pulse, resprate, user)  
                         elsif patient_menu == "View"
                             begin
-                                patient == current_patient.full_name
+                                patient = current_patient.full_name
                                 view_log(patient)
+                                #patient.view_log(patient)
                             rescue
                                 puts "no record yet, please add log".colorize(:red)
                             end
