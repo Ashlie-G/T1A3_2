@@ -14,6 +14,9 @@ I have developed this app so there is a digital record and process of logging an
 
 
 ### Installation
+If accessing from Github, please click https://github.com/Ashlie-G/T1A3_2
+Navigate to documents/assessment/AshlieGray_T1A3_2
+
 In your computers terminal, move to the directory that hold the downloaded file and run the following command
 
 **insert image here of bash script**
@@ -64,6 +67,9 @@ In terms of authentication, users are presented with error messages if usernames
 If the database files (Csv) are empty, the user will be notified and prompted to create either a user or patient profile.
 
 ### Help
+If accessing from Github, please click https://github.com/Ashlie-G/T1A3_2
+Navigate to documents/assessment/AshlieGray_T1A3_2
+
 
 ### Control Flow Diagram
 
