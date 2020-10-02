@@ -1,9 +1,10 @@
 class Patient
     attr_reader :species, :breed, :age, :sex
-    attr_accessor :full_name, :patient_log
+    attr_accessor :first_name, :last_name, :patient_log
     
-    def initialize(full_name, species, breed, age, sex)
-        @full_name = full_name
+    def initialize(first_name, last_name, species, breed, age, sex)
+        @first_name = first_name
+        @last_name = last_name
         @species =species
         @breed = breed
         @age = age

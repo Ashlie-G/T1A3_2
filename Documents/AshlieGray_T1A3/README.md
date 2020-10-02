@@ -89,7 +89,7 @@ Help menu options available within the app, navigation help in the main menu and
 
 
 
-### Control Flow Diagram
+### Control Flow
 
 
 ### Github repository & Trello Board

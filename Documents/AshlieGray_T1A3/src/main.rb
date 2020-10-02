@@ -75,7 +75,7 @@ loop do
 
     begin
         CSV.foreach("Patients.csv", headers: true) do |row| 
-            patient_list << Patient.new(row["full_name"], row["species"], row["breed"], row["age"], row["sex"])
+            patient_list << Patient.new(row["first_name"],row["last_name"], row["species"], row["breed"], row["age"], row["sex"])
         end
     rescue (Errno::ENOENT)
         puts "No patient's on file, please create patient profile".colorize(:red)
@@ -91,65 +91,70 @@ loop do
         
         if main_menu == "Find Patient" 
             patient_name = prompt.ask("Patient Name", required: true)  
-            current_patient = patient_list.find{ |patient| patient.full_name == patient_name }
+            current_patient = patient_list.find{ |patient| patient.first_name == patient_name }
+            
             begin    
-                if patient_name = current_patient.full_name
-                    #patient_lastname = prompt.ask("Patient Last Name". required: true)
-                    #if patient_lastname = current_patient.last_name
-                    patient = current_patient.full_name
-                    puts "#{current_patient.full_name} is #{current_patient.species}, is a #{current_patient.breed}, is #{current_patient.age} years old and is #{current_patient.sex}".colorize(:light_blue)
-                    loop do
-                        patient != nil
-                        patient_menu = prompt.select("Would you like to add log or view log?") do |menu|
-                        menu.choice "Add"
-                        menu.choice "View"
-                        menu.choice "Help (Normal Ranges)"
-                        menu.choice "Exit Patient Menu"   
-                        end 
+                if patient_name == current_patient.first_name
+                    patient_lastname = prompt.ask("Patient Last Name", required: true)
+                    if patient_lastname == current_patient.last_name
+                        patient = current_patient
+                        puts "#{current_patient.first_name} is #{current_patient.species}, is a #{current_patient.breed}, is #{current_patient.age} years old and is #{current_patient.sex}".colorize(:light_blue)
+                        loop do
+                            patient != nil
+                            patient_menu = prompt.select("Would you like to add log or view log?") do |menu|
+                            menu.choice "Add"
+                            menu.choice "View"
+                            menu.choice "Help (Normal Ranges)"
+                            menu.choice "Exit Patient Menu"   
+                            end 
                         
-                        if  patient_menu == "Add"
-                            temp = prompt.ask("Temperature", convert: :float, required: true)
-                            pulse = prompt.ask("Pulse", convert: :int, required: true)
-                            resprate = prompt.ask("Resp", convert: :int, required: true)
-                            patient = current_patient.full_name
-                            user = current_user.username
-                            add_log(patient, temp, pulse, resprate, user)  
-                        elsif patient_menu == "View"
-                            begin
-                                patient = current_patient.full_name
-                                view_log(patient)
-                                #patient.view_log(patient)
-                            rescue
-                                puts "no record yet, please add log".colorize(:red)
-                            end
-                        elsif patient_menu == "Help (Normal Ranges)"
-                            puts "Normal ranges are:"
-                            normalrange = TTY::Table.new(["Dog","Cat","Guinea Pig"], [["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
-                            puts normalrange.render(:ascii)
-                            puts "bpm = beats per minute\nbrpm = breaths per minute"
+                            if  patient_menu == "Add"
+                                temp = prompt.ask("Temperature", convert: :float, required: true)
+                                pulse = prompt.ask("Pulse", convert: :int, required: true)
+                                resprate = prompt.ask("Resp", convert: :int, required: true)
+                                patient = current_patient.first_name
+                                user = current_user.username
+                                add_log(patient, temp, pulse, resprate, user)  
+                            elsif patient_menu == "View"
+                                begin
+                                    patient = current_patient.first_name
+                                    view_log(patient)
+                                rescue
+                                    puts "no record yet, please add log".colorize(:red)
+                                end
+                            elsif patient_menu == "Help (Normal Ranges)"
+                                puts "Normal ranges are:"
+                                normalrange = TTY::Table.new(["Dog","Cat","Guinea Pig"], [["Temp - 38.4-39.1", "Temp - 38.2-38.6", "Temp -37.2 -39.5"], ["Pulse - 60-180 bpm", "Pulse - 120-220 bpm", "Pulse - 230 -380 bpm"], ["Resp Rate - 10-30 brpm", "Resp Rate - 24-42 brpm", "Resp Rate -42 -104brpm"]])
+                                puts normalrange.render(:ascii)
+                                puts "bpm = beats per minute\nbrpm = breaths per minute"
                             
-                        else patient_menu == "Exit Patient Menu"
-                             patient = nil
-                    break
-                        end
-                    end   
+                            else patient_menu == "Exit Patient Menu"
+                                patient = nil
+                            break
+                            end
+                        end   
+                    else
+                        puts "last name invalid"
+                    end
                 else
                     puts "Invalid"
                 end
             rescue
+                p patient
                 puts "Patient not found, please try again".colorize(:red)   
             end
             
         elsif main_menu == "Add Patient"
-              patient_name= prompt.ask("Patient Full Name", required: true)
+              patient_name= prompt.ask("Patient First Name", required: true)
+              patient_last_name = prompt.ask("Patient Last Name", required: true)
               patient_species= prompt.ask("Patient Species", required: true)
               patient_breed= prompt.ask("Patient Breed", required: true)
               patient_age= prompt.ask("Patient Age", convert: :int, required: true)
               patient_sex= prompt.ask("Patient Sex", required: true)
-              patient = Patient.new(patient_name, patient_species, patient_breed, patient_age, patient_sex)
+              patient = Patient.new(patient_name, patient_last_name, patient_species, patient_breed, patient_age, patient_sex)
               patient_list << patient
               CSV.open("Patients.csv", "a") do |csv| 
-                 csv << ["#{patient_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"]   
+                 csv << ["#{patient_name}", "#{patient_last_name}", "#{patient_species}", "#{patient_breed}", "#{patient_age}", "#{patient_sex}"]   
               end    
                 puts "Thank you, #{patient_name} has been added to the system".colorize(:magenta)       
         elsif main_menu == "Help"
