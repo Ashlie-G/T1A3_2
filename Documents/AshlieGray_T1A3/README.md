@@ -90,7 +90,7 @@ Help menu options available within the app, navigation help in the main menu and
 
 
 ### Control Flow
-
+![Control Flow Diagram](docs/controlflowfinal.png)
 
 ### Github repository & Trello Board
 https://github.com/Ashlie-G/T1A3_2
