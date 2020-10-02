@@ -15,11 +15,11 @@ I have developed this app so there is a digital record and process of logging an
 
 ### Installation
 If accessing from Github, please click https://github.com/Ashlie-G/T1A3_2
-Navigate to documents/assessment/AshlieGray_T1A3_2
-
-In your computers terminal, move to the directory that hold the downloaded file and run the following command
-
-**insert image here of bash script**
+Download the file as a zip and unpack files on your computer
+From the command line navigate to the root folder(T1A3_2-master).
+Once you are in the folder run ``` cd T1A3_2-master/Documents/AshlieGray_T1A3/src``` to navigate to the correct folder to run the app.
+From the src folder run the bash script ```./run_tpr.sh```
+This should install gem dependencies and run the program.
 
 **Gem requirements**
  - gem install tty prompt
@@ -28,7 +28,8 @@ In your computers terminal, move to the directory that hold the downloaded file 
  - gem install artii
 
 **System Requirements**
- Ruby 2.7.4 
+Mac OS
+Ruby 2.7.4 
 
 **App requirements**
 - User account will need to be made in order to attached identitiy to each record
