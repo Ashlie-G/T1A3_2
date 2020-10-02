@@ -2,7 +2,7 @@
 def view_log(patient) 
     @patient_log =CSV.parse(File.read("#{patient}.csv"))
     normalrange = TTY::Table.new(["Temp","Pulse","Resp Rate", "User", "Time & Date"], @patient_log.to_a)
-    puts normalrange.render(:ascii)  
+    puts normalrange.render(:ascii, alignments: [:center, :right])  
 end
 
 #add log method

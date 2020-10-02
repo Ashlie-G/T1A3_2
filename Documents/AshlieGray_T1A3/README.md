@@ -16,10 +16,15 @@ I have developed this app so there is a digital record and process of logging an
 ### Installation
 If accessing from Github, please click https://github.com/Ashlie-G/T1A3_2
 Download the file as a zip and unpack files on your computer
+
 From the command line navigate to the root folder(T1A3_2-master).
-Once you are in the folder run ``` cd T1A3_2-master/Documents/AshlieGray_T1A3/src``` to navigate to the correct folder to run the app.
-From the src folder run the bash script ```./run_tpr.sh```
-This should install gem dependencies and run the program.
+Once you are in the folder run 
+``` cd T1A3_2-master/Documents/AshlieGray_T1A3/src``` 
+Once in the src folder, if you do not already have the gem requirements (listed below), please run the following script 
+```./gem_install.sh```
+From the src folder run the following script to launch the app 
+```./run_tpr.sh```
+
 
 **Gem requirements**
  - gem install tty prompt
