@@ -1,3 +1,4 @@
+@patient_log = []
 #method to view log
 def view_log(patient) 
     @patient_log =CSV.parse(File.read("#{patient}.csv"))
@@ -9,8 +10,7 @@ end
 def add_log(patient, temperature, pulse, respiration, user)
     @patient_log = temperature, pulse, respiration
     CSV.open("#{patient}.csv", "a") do |csv|
-    csv << ["#{temperature}" + "°C" + " ", "#{pulse}" + "bpm" + " ", "#{respiration}" + "brpm", "#{user}", "#{Time.now}"]
-    #csv << ["#{user}", Time.now]
+        csv << ["#{temperature}" + "°C" + " ", "#{pulse}" + "bpm" + " ", "#{respiration}" + "brpm", "#{user}", "#{Time.now}"]
     end   
 end
 
@@ -19,12 +19,9 @@ def title_screen
     title =File.read("title.txt").colorize(:magenta)
     puts title
 end
-user_list = []
-patient_list = []
-@patient_log = []
 
 #command line help menu
-def process_argv(option)
+def command_argv(option)
     case option
     when "-h"
         puts "Welcome to the help menu".colorize(:magenta)
@@ -33,11 +30,10 @@ def process_argv(option)
         puts "If you are unsure of the normal parameters for the patient you are examining, please see the help menu in tha patient section".colorize(:light_blue)
         puts "Press Control+C to exit the app at anytime".colorize(:light_blue)
         puts "Thank you for visiting the help menu".colorize(:magenta)
-        exit
-        
+        exit   
     end
 end
 
-@options = {}
+options = {}
 
-ARGV.each{ |opt| process_argv(opt) }
+ARGV.each{ |opt| command_argv(opt) }

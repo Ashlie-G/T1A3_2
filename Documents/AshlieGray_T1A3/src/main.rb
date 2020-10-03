@@ -92,7 +92,6 @@ loop do
         if main_menu == "Find Patient" 
             patient_name = prompt.ask("Patient Name", required: true)  
             current_patient = patient_list.find{ |patient| patient.first_name == patient_name }
-            
             begin    
                 if patient_name == current_patient.first_name
                     patient_lastname = prompt.ask("Patient Last Name", required: true)

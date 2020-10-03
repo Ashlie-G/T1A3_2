@@ -4,7 +4,7 @@ Welcome to the TPR tracker. This app is designed to easily track the temperature
 The TPR Tracker is a convenient way for vets and nurses to keep track of their inpatients vital signs. The app allows for each nurse and vet in the hospital to enter their account details and accurately log the temperature, pulse and respiration rate of the inpatients in their care. If the staff member doesn't have an account, an account can be created so they are linked to the data that has been logged to a specific patient. Once in their account, the vet or nurse will have the ability to add a new patient or view the log of an existing patient. Any staff member with an account will be able to read the log for any inpatient and add a new one. Once the information has been logged, the nurse or vet can log out of their account. Each entry that the vet or nurse has made will be time stamped and their username will be attached to comply with veterinary industry record keeping protocols.
 
 ### Development
-I have developed this app so there is a digital record and process of logging and viewing patient details. Currently in most hospitals, paper records are still used for logging information on patient cage cards. While the animal still needs to be identified by a cage card, this will solve the problem of monitoring sheets being misplaced or eaten by the patient. It will also make the log easily accessible to vets or nurses who aren't in the hospital area, but would like to access the records from their consultation room. This app will also save time and effort of someone having to upload the monitoring sheet to the animals record.
+I have developed this app for veterinarians and veterinary nurses, to have the ability to create a digital record and process of logging and viewing patient details. The current problem in most hospitals, paper records are still used for logging information on patient cage cards. While the animal still needs to be identified by a cage card, this will solve the problem of monitoring sheets being misplaced or eaten by the patient. It will also make the log easily accessible to the target audience of vets or nurses who aren't in the hospital area, but would like to access the records from their consultation room. This app will also save time and effort of someone having to upload the monitoring sheet to the animals record.
 
 ### Features
 - User Login/Creation Feature : Allows a vet or nurse to login or out of their account so that accurate records can be made.    This feature also allows to create user accounts with a username and password. If they do not make an account or use their existing one, they wont be able to log or access the information.
@@ -19,31 +19,43 @@ Download the file as a zip and unpack files on your computer
 
 From the command line navigate to the root folder(T1A3_2-master).
 Once you are in the folder run in the command line 
-``` cd T1A3_2-master/Documents/AshlieGray_T1A3/src``` 
-Once in the src folder, if you do not already have the gem requirements (listed below), please run the following script 
-```./gem_install.sh```
-Once this process is complete or if you already have the required gems installed, from the 'src' folder run the following script to launch the app 
-```./run_tpr.sh```
-Please create a user file if you do not already have an existing one, follow the input prompts and track your patients temperature, pulse and respiratory rate.
 
-**Gem requirements**
+``` cd T1A3_2-master/Documents/AshlieGray_T1A3/src``` 
+
+Once in the src folder, if you do not already have the gem requirements (listed below), please run the following script:
+
+```./gem_install.sh```
+
+Once this process is complete or if you already have the required gems installed, from the 'src' folder run the following script to launch the app:
+
+```./run_tpr.sh```
+
+Please create a user file, follow the input prompts and track your patients temperature, pulse and respiratory rate.
+
+**Gem Requirements**
+Please do not use the following command line inserts if you have already ran the gem install script above.
  - TTY Prompt
+
  ```gem install tty prompt```
 
  - TTY Table
+
  ```gem install tty table```
 
  - Colorize
+
  ```gem install colorize```
 
  - Artii
+
  ```gem install artii```
 
 **System Requirements**
 Mac OS
-Ruby 2.7.4 
+Ruby 2.7.2
+If ruby is not already installed on your computer, please go to https://www.ruby-lang.org/en/downloads/. 
 
-**App requirements**
+**App Requirements**
 - User account will need to be made in order to attach identity to each record.
 
 
@@ -56,6 +68,7 @@ Welcome to the TPR Tracker
 "Login"
 "Create New"
 "Exit"
+
 This will loop until they log in, create an account or decide to exit the app.
 The user will be presented with a prompt "What would you like to do?" followed by a list of the options to scroll through:
 "Find Patient"
@@ -67,7 +80,9 @@ If they select "Find Patient", they will be able to type the patients name. If t
 "View Log"
 "Help - Normal Values"
 "Exit" 
+
 If the user selects add log, they will be prompted to add the patients temperature, pulse rate and respiratory rate. They will then loop back to the menu where they can either view the log or repeat the process for the next patient.
+
 If they select 'view log' the animals monitoring record will print to the screen in a table. 
 If the user is unsure of a value they have inputted, they can select the help menu which will present a table of the normal values for dogs, cats and guinea pigs.
 When the user has finished, they can exit this menu, which loops back to the main, where they can log out of the app.
