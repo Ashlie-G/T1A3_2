@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
-@patient_log = []
 # method to view log
+@patient_log = []
 def view_log(patient)
   @patient_log = CSV.parse(File.read("#{patient}.csv"))
   normalrange = TTY::Table.new(['Temp', 'Pulse', 'Resp Rate', 'User', 'Time & Date'], @patient_log.to_a)

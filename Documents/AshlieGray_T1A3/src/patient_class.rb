@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Patient
   attr_reader :species, :breed, :age, :sex
   attr_accessor :first_name, :last_name, :patient_log
