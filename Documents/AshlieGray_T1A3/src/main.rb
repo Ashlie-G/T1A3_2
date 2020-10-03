@@ -157,6 +157,7 @@ loop do
     elsif main_menu == 'Help'
       puts 'The TPRP Monitor allows you to easily log the temperature, pulse and respiration rate of your patients'.colorize(:magenta)
       puts 'Use the up and down arrows to navigate the menu'.colorize(:light_blue)
+      puts 'Press control + c to cancel running the app at anytime'.colorize(:light_blue)  
     else main_menu == 'Exit'
          puts "Thank you #{current_user.username}, you have now logged out".colorize(:magenta)
          sleep 1

@@ -1,7 +1,7 @@
 # T.P.R Tracker - T1A3
 ## Purpose
 Welcome to the TPR tracker. This app is designed to easily track the temperature, pulse and respiratory rate of inpatients in a veterinary hospital.
-The TPR Tracker is a convenient way for vets and nurses to keep track of their inpatients vital signs. The app allows for each nurse and vet in the hospital to enter their account details and accurately log the temperature, pulse and respiration rate of the inpatients in their care. If the staff member doesn't have an account, an account can be created so they are linked to the data that has been logged to a specific patient. Once in their account, the vet or nurse will have the ability to add a new patient or view the log of an existing patient. Any staff member with an account will be able to read the log for any inpatient and add a new one. Once the information has been logged, the nurse or vet can log out of their account. Each entry that the vet or nurse has made will be time stamped and their username will be attached to comply with veterinary industry record keeping protocols.
+The TPR Tracker is a convenient way for vets and nurses to keep track of their inpatients vital signs. The app allows for each nurse and vet in the hospital to enter their account details or create a new account and accurately log the temperature, pulse and respiration rate of the inpatients in their care. Once in their account, the vet or nurse will have the ability to add a new patient or view the log of an existing patient. Any staff member with an account will be able to read the log for any inpatient and add a new one. Once the information has been logged, the nurse or vet can log out of their account. Each entry that the vet or nurse has made will be time stamped and their username will be attached to comply with veterinary industry record keeping protocols.
 
 ## Software Development
 I have developed this app for veterinarians and veterinary nurses, to have the ability to create a digital record and process of logging and viewing patient details. The current problem in most hospitals, paper records are still used for logging information on patient cage cards. While the animal still needs to be identified by a cage card, this will solve the problem of monitoring sheets being misplaced or eaten by the patient. It will also make the log easily accessible to the target audience of vets or nurses who aren't in the hospital area, but would like to access the records from their consultation room. This app will also save time and effort of someone having to upload the monitoring sheet to the animals record.
@@ -53,7 +53,7 @@ Please do not use the following command line inserts if you have already ran the
 **System Requirements**
 Mac OS
 Ruby 2.1
-If ruby is not already installed on your computer, please go to https://www.ruby-lang.org/en/downloads/. 
+If ruby is not already installed on your computer, please go to https://www.ruby-lang.org/en/downloads/ 
 
 **App Requirements**
 - User account will need to be made in order to attach identity to each record.
@@ -93,15 +93,15 @@ In terms of authentication, users are presented with error messages if usernames
 If the database files (Csv) are empty, the user will be notified and prompted to create either a user or patient profile.
 
 ### Help
-While using the TPR Tracker, a user may exit the app by pressing Control + c and using the command line prompt:
+While using the TPR Tracker, a user may exit the app at any time by pressing Control + c, then input the following command line prompt:
 
 ```ruby main.rb -h```
 
 to get help at any point.
 Installation instructions as above.
 Help menu options available within the app, navigation help in the main menu and normal species parameter value help in the patient menu.
-If the user or patient databases get deleted, if the user creates a new account or new patient, a new document will automatically generate.
-Please ensure that the first line of the Users.csv file is 'username,password'(no spaces), and the first line of the Patients.csv is 'first_name,last_name,species,breed,age,sex'(no spaces).
+If the user or patient databases get deleted (Users.csv, Patients.csv), the user needs to create a new account or new patient, and a new database will automatically generate.
+Please ensure that the first line of the Users.csv file is ```username,password``` (no spaces), and the first line of the Patients.csv is ```first_name,last_name,species,breed,age,sex```(no spaces).
 
 ### Control Flow
 ![Control Flow Diagram](docs/controlflowfinal.png)
