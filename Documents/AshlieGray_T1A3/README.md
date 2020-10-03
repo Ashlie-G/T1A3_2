@@ -60,23 +60,35 @@ If ruby is not already installed on your computer, please go to https://www.ruby
 
 Veterinarians and veterinary nurses will use this in order to save time, log accurate patient information and have this information accessible to everyone with an account. First the user will log in or create an account. During a round, they will approach the animals kennel, confirm the identification of the animal and either navigate to its file or create one. They then perform their check of vital signs, navigate to the patient menu and log it in to the animals file. They can then view the log or exit that animals file (assuming everything is within normal range) and repeat the process with the next patient. As rounds happen frequently, the log will contain the identity of the vet or nurse who logged it, the time and date. Each patient's file will be amended with each entry so there is a complete picture of its progress throughout it's hospital stay. This is then automatically attached to the animals digital records.
 
+![Opening menu screenshot](docs/openingmenu.png)
+
 The app will need the user to log in or create an account. The user is presented with a scrolling opening menu as follows:
 Welcome to the TPR Tracker
 "Login"
 "Create Account"
 "Exit"
 This will loop until they log in, create an account or decide to exit the app. To login, they enter a username and password. To create an account they create a username and password. 'Exit' will present a 'thank you' message and exit the app.
+
+![Opening menu screenshot](docs/mainmenu.png)
+
 Once the user has logged in the with correct details or created an account, they will be presented with a prompt "What would you like to do?" followed by a list of the main menu options to scroll through:
 "Find Patient"
 "Add Patient"
 "Help"
 "Exit"
-If they select "Find Patient", they will be able to type the patients first and last name. If the user wants to add a patient, they will be prompted to enter the required information. The help option displays information on how to navigate or cancel the current session and the exit takes the user back to the opening menu. If the user selects find or adds a patient and the details entered are correct, the user will be presented with the patient menu options:
-"Add log"
-"View Log"
+If they select "Find Patient", they will be able to type the patients first and last name. If the user wants to add a patient, they will be prompted to enter the required information. The help option displays information on how to navigate or cancel the current session and the exit takes the user back to the opening menu. 
+
+![Opening menu screenshot](docs/patientmenu.png)
+
+If the user selects find or adds a patient and the details entered are correct, the user will be presented with the patient menu options:
+"Add"
+"View"
 "Help - Normal Values"
 "Exit" 
 If the user selects add log, they will be prompted to add the patients temperature, pulse rate and respiratory rate. They will then loop back to the menu where they can either view the log or repeat the process for the next patient.
+
+![Opening menu screenshot](docs/viewlog.png)
+
 If they select 'view log' the animals monitoring record will print to the screen in a table. 
 If the user is unsure of a value they have inputted, they can select the help menu which will present a table of the normal values for dogs, cats and guinea pigs.
 When the user has finished, they can exit this menu, which loops back to the main, where they can log out of the app.
