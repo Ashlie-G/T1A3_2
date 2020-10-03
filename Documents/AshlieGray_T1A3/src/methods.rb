@@ -10,7 +10,8 @@ end
 def add_log(patient, temperature, pulse, respiration, user)
     @patient_log = temperature, pulse, respiration
     CSV.open("#{patient}.csv", "a") do |csv|
-        csv << ["#{temperature}" + "°C" + " ", "#{pulse}" + "bpm" + " ", "#{respiration}" + "brpm", "#{user}", "#{Time.now}"]
+    csv << ["#{temperature}" + "°C" + " ", "#{pulse}" + "bpm" + " ", "#{respiration}" + "brpm", "#{user}", "#{Time.now}"]
+    #csv << ["#{user}", Time.now]
     end   
 end
 
@@ -30,7 +31,8 @@ def command_argv(option)
         puts "If you are unsure of the normal parameters for the patient you are examining, please see the help menu in tha patient section".colorize(:light_blue)
         puts "Press Control+C to exit the app at anytime".colorize(:light_blue)
         puts "Thank you for visiting the help menu".colorize(:magenta)
-        exit   
+        exit
+        
     end
 end
 

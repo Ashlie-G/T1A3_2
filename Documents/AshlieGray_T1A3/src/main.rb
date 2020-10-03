@@ -43,9 +43,9 @@ loop do
         puts "Thank you #{current_user.username}, you are now logged in and have been added to the system".colorize(:magenta)     
     
         elsif welcome == "Login"
-            username = prompt.ask("Enter username", required: true)
-            current_user = user_list.find { |user| user.username == username }     
-            begin  
+            begin 
+                username = prompt.ask("Enter username", required: true)
+                current_user = user_list.find { |user| user.username == username }     
                 if username == current_user.username
                     password = prompt.mask("Enter your password", required: true)
                     if password == current_user.password
@@ -60,7 +60,7 @@ loop do
                 break    
                 end
             rescue
-                puts "Something went wrong, please run the app again with correct username or create a new account".colorize(:red)
+                puts "Something went wrong, please run the app again with correct username or create a new account (./run_tpr.sh)".colorize(:red)
             break   
         end
 

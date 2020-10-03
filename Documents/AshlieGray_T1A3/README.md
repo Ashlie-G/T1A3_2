@@ -1,9 +1,9 @@
 # T.P.R Tracker - T1A3
-### Purpose
+## Purpose
 Welcome to the TPR tracker. This app is designed to easily track the temperature, pulse and respiratory rate of inpatients in a veterinary hospital.
 The TPR Tracker is a convenient way for vets and nurses to keep track of their inpatients vital signs. The app allows for each nurse and vet in the hospital to enter their account details and accurately log the temperature, pulse and respiration rate of the inpatients in their care. If the staff member doesn't have an account, an account can be created so they are linked to the data that has been logged to a specific patient. Once in their account, the vet or nurse will have the ability to add a new patient or view the log of an existing patient. Any staff member with an account will be able to read the log for any inpatient and add a new one. Once the information has been logged, the nurse or vet can log out of their account. Each entry that the vet or nurse has made will be time stamped and their username will be attached to comply with veterinary industry record keeping protocols.
 
-### Development
+## Software Development
 I have developed this app for veterinarians and veterinary nurses, to have the ability to create a digital record and process of logging and viewing patient details. The current problem in most hospitals, paper records are still used for logging information on patient cage cards. While the animal still needs to be identified by a cage card, this will solve the problem of monitoring sheets being misplaced or eaten by the patient. It will also make the log easily accessible to the target audience of vets or nurses who aren't in the hospital area, but would like to access the records from their consultation room. This app will also save time and effort of someone having to upload the monitoring sheet to the animals record.
 
 ### Features
@@ -52,25 +52,24 @@ Please do not use the following command line inserts if you have already ran the
 
 **System Requirements**
 Mac OS
-Ruby 2.7.2
+Ruby 2.1
 If ruby is not already installed on your computer, please go to https://www.ruby-lang.org/en/downloads/. 
 
 **App Requirements**
 - User account will need to be made in order to attach identity to each record.
-
+- Details for patient you would like to enter into the app.
 
 ### User Interaction
 
 Veterinarians and veterinary nurses will use this in order to save time, log accurate patient information and have this information accessible to everyone. First the user will log in or create an account. During a round, they will approach the animals kennel, confirm the identification of the animal and either navigate to its file or create one. They then perform their check of vital signs, and log it in to the animals file. They then exit that animals file (assuming everything is within normal range) and repeat the process with the next animal. As rounds happen frequently, the log will contain the identity of the vet or nurse who logged it, the time and date. Each patient's file will be amended with each entry so there is a complete picture of its progress throughout it's hospital stay. This can then be attached to the animals digital records.
 
-First the app will need the user to log in or create an account. The presented with a scrolling menu as follows:
+First the app will need the user to log in or create an account. The presented with a scrolling opening menu as follows:
 Welcome to the TPR Tracker
 "Login"
-"Create New"
+"Create Account"
 "Exit"
-
 This will loop until they log in, create an account or decide to exit the app.
-The user will be presented with a prompt "What would you like to do?" followed by a list of the options to scroll through:
+The user will be presented with a prompt "What would you like to do?" followed by a list of the main menu options to scroll through:
 "Find Patient"
 "Add Patient"
 "Help"
@@ -80,9 +79,7 @@ If they select "Find Patient", they will be able to type the patients name. If t
 "View Log"
 "Help - Normal Values"
 "Exit" 
-
 If the user selects add log, they will be prompted to add the patients temperature, pulse rate and respiratory rate. They will then loop back to the menu where they can either view the log or repeat the process for the next patient.
-
 If they select 'view log' the animals monitoring record will print to the screen in a table. 
 If the user is unsure of a value they have inputted, they can select the help menu which will present a table of the normal values for dogs, cats and guinea pigs.
 When the user has finished, they can exit this menu, which loops back to the main, where they can log out of the app.
@@ -91,23 +88,25 @@ When the user has finished, they can exit this menu, which loops back to the mai
 
 As this app is largely based on user input, this leaves room for errors.
 All input is required, nothing can be left empty. The user is presented with a 'value required' message if no input is received.
-If in correct data types are entered, for example when the app is expecting numbers, like in the log feature, an error message will appear stating that the value entered cannot be converted, so number will need to be inputted to move forward.
-In terms of authentication, users are presented with error messages if usernames, passwords or patient names are incorrect, and are direct back to the appropriate menu.
+If incorrect data types are entered, for example when the app is expecting numbers, like in the log feature, an error message will appear stating that the value entered cannot be converted, so number will need to be inputted to move forward.
+In terms of authentication, users are presented with error messages if usernames, passwords or patient names are incorrect, and are direct back to the appropriate menu, or prompted to re-run the program.
 If the database files (Csv) are empty, the user will be notified and prompted to create either a user or patient profile.
 
 ### Help
-While using the TPR Tracker, a user may exit the app by pressing Control + C and using the command line prompt: 
+While using the TPR Tracker, a user may exit the app by pressing Control + c and using the command line prompt:
+
 ```ruby main.rb -h```
+
 to get help at any point.
 Installation instructions as above.
 Help menu options available within the app, navigation help in the main menu and normal species parameter value help in the patient menu.
-
-
+If the user or patient databases get deleted, if the user creates a new account or new patient, a new document will automatically generate.
+Please ensure that the first line of the Users.csv file is 'username,password'(no spaces), and the first line of the Patients.csv is 'first_name,last_name,species,breed,age,sex'(no spaces).
 
 ### Control Flow
 ![Control Flow Diagram](docs/controlflowfinal.png)
 
-### Github repository & Trello Board
+### Github Repository & Trello Board
 https://github.com/Ashlie-G/T1A3_2
 https://trello.com/b/t89yNIU2/tprp-monitor
 
@@ -116,8 +115,8 @@ https://trello.com/b/t89yNIU2/tprp-monitor
 1. TTY-Prompt 2020, Piotr Murach, TTY- Toolkit, viewed 24th September 2020, <https://github.com/piotrmurach/tty-prompt>
 2. TTY-Table 2020, Piotr Murach, TTY-Toolkit, viewed 24th September 2020, <https://github.com/piotrmurach/tty-table>
 3. Colorize 2018, Michał Kalbarczyk, viewed 24th September 2020, <https://github.com/fazibear/colorize>
-Ascii.co.uk 2020, 'Ascii paws', viewed September 28th 2020 from <https://ascii.co.uk/art/pawprints>
-Patorjk.com 2020, 'Ascii Font Generator', vewied 28th September 2020 from <http://patorjk.com/software/taag/#p=display&f=Graffiti&t=Type%20Something%20>
-Woof Resources 2020, 'Normal Ranges of Small Animals Parameters', viewed 29th Septmber 2020 from <https://www.woofresources.com.au/free-resources>
+4. Ascii.co.uk 2020, 'Ascii paws', viewed September 28th 2020 from <https://ascii.co.uk/art/pawprints>
+5. Patorjk.com 2020, 'Ascii Font Generator', vewied 28th September 2020 from <http://patorjk.com/software/taag/#p=display&      f=Graffiti&t=Type%20Something%20>
+6. Woof Resources 2020, 'Normal Ranges of Small Animals Parameters', viewed 29th Septmber 2020 from <https://www.woofresources.com.au/free-resources>
 
 
