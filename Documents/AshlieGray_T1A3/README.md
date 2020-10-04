@@ -31,6 +31,10 @@ Once this process is complete or if you already have the required gems installed
 ```./run_tpr.sh```
 
 Please create a user file, follow the input prompts and track your patients temperature, pulse and respiratory rate.
+If you have any issues with permission, please see the 'Help' information below.
+If you would like to see the user help options prior to running the app, please enter the following into the command line within the 'src' folder:
+
+```ruby main.rb -h```
 
 **Gem Requirements**
 Please do not use the following command line inserts if you have already ran the gem install script above.
