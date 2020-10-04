@@ -108,6 +108,10 @@ While using the TPR Tracker, a user may exit the app at any time by pressing Con
 
 to get help at any point.
 Installation instructions as above.
+If you encounter a permissions error after running the scripts, please input the following into the command line
+
+```chmod +x run_tpr.sh```
+
 Help menu options are available within the app. Navigation help is featured in the main menu and normal species parameter value help is in the patient menu.
 If the user or patient databases get deleted (Users.csv, Patients.csv), the user needs to create a new account or new patient, and a new database will automatically generate.
 Please ensure that the first line of the Users.csv file is ```username,password``` (no spaces), and the first line of the Patients.csv is ```first_name,last_name,species,breed,age,sex```(no spaces).
