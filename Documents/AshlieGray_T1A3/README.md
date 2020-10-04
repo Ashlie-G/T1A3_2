@@ -5,6 +5,7 @@ The app allows for each nurse and vet in the hospital to enter their account det
 
 ## Software Development
 I have developed this app for veterinarians and veterinary nurses, to have the ability to create a digital record and process of logging and viewing patient details. The current problem in most hospitals is that paper records can easily be misplaced, swapped or changed. While the animal still needs to be identified by a cage card, this will solve the problem and also save the use of paper and time scanning/uploading documents to a patients file . It will also make the log easily accessible to the target audience of vets or nurses who aren't in the hospital area, but would like to access the records from their consultation room.
+Please see the control flow diagram at the end of this document which displays the concept behind its construction using loops and user input. The app was developed using primarily TTY Prompt for the inputs, menus, defaults and overall look. TTY Table was utilized in order to present the logged information in a readable format, tables. The colorize gem was also used in order to increase readability and overall presentation of the app. 
 
 ### Features
 - User Login/Creation Feature : Allows a vet or nurse to login or out of their account so that accurate records can be kept. This feature also allows a user to create an account with a username and password. If they do not make an account or use their existing one, they wont be able to log or access the information.
